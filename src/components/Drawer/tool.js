@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 // MUI Components
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -14,7 +16,7 @@ import { grey } from "@mui/material/colors";
 const drawerWidth = 60;
 const drawerHeight = "94%";
 
-export default function Tool({ icon: { title, iconMUI, key } }) {
+function Tool({ icon: { title, iconMUI, key } }) {
   // Functions
   const changeWindow = () => {
     console.log("clicked");
@@ -49,3 +51,12 @@ export default function Tool({ icon: { title, iconMUI, key } }) {
     </Tooltip>
   );
 }
+
+Tool.prototype = {
+  icon: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    key: PropTypes.number.isRequired,
+  }),
+};
+
+export default Tool;
