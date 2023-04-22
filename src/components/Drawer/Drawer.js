@@ -16,20 +16,21 @@ import EventIcon from "@mui/icons-material/Event";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import FeedIcon from "@mui/icons-material/Feed";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import MapIcon from "@mui/icons-material/Map";
 
 // MUI Colors
-import { grey } from "@mui/material/colors";
+import { grey, lightBlue } from "@mui/material/colors";
 
-const drawerWidth = 60;
-const drawerHeight = "94%";
+const drawerWidth = 50;
+const drawerHeight = "85%";
 
 export default function Drawer() {
   const [open, setOpen] = useState(true);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const icons = [
-    { iconMUI: <EventIcon />, title: "Event Controler", key: "0" },
-    { iconMUI: <AddLocationAltIcon />, title: "Map Editor", key: "1" },
-    { iconMUI: <FeedIcon />, title: "POI Editor", key: "2" },
+    { iconMUI: <EventIcon />, title: "Event Controler", key: 1 },
+    { iconMUI: <AddLocationAltIcon />, title: "Map Editor", key: 2 },
+    { iconMUI: <FeedIcon />, title: "POI Editor", key: 3 },
   ];
 
   // Functions
@@ -50,7 +51,14 @@ export default function Drawer() {
   };
 
   return open ? (
-    <Box sx={{ display: "flex", height: "100dvh", alignItems: "center" }}>
+    <Box
+      sx={{
+        positon: "absolute",
+        display: "flex",
+        height: "100dvh",
+        alignItems: "center",
+      }}
+    >
       <Box
         sx={{
           width: drawerWidth,
@@ -66,13 +74,16 @@ export default function Drawer() {
         }}
       >
         {/* Logo */}
-        {/* <IconButton onClick={expandDrawer} size="small">
-          <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-        </IconButton> */}
+        <Avatar sx={{ bgcolor: lightBlue[500], mt: 3 }}>
+          <MapIcon />
+        </Avatar>
+        <Toolbar />
+
         {/* Tools */}
         {icons.map(icon => (
-          <Tool icon={icon} />
+          <Tool icon={icon} key={icon.key} />
         ))}
+
         {/* Close Drawer */}
         <IconButton
           onClick={handleDrawer}
@@ -94,13 +105,15 @@ export default function Drawer() {
     <Box
       sx={{
         boxShadow: 3,
-        width: 50,
-        mt: 5,
+        width: 40,
+        height: 50,
+        mt: 7,
         borderRadius: 5,
+        display: "flex",
+        alignItems: "center",
         borderTopLeftRadius: 0,
         borderBottomLeftRadius: 0,
         bgcolor: "primary.dark",
-        transition: "all 900ms ease-in,",
       }}
     >
       <IconButton onClick={handleDrawer}>
