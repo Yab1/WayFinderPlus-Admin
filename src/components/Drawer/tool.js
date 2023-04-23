@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 // MUI Components
 import Toolbar from "@mui/material/Toolbar";
@@ -16,22 +17,18 @@ import { grey } from "@mui/material/colors";
 const drawerWidth = 60;
 const drawerHeight = "94%";
 
-function Tool({ icon: { title, iconMUI, key } }) {
-  // Functions
-  const changeWindow = () => {
-    console.log("clicked");
-  };
+function Tool({ icon: { title, iconMUI, key, path } }) {
+  const navigate = useNavigate();
 
   return (
     <Tooltip title={title} placement="right" disableInteractive>
       <IconButton
         key={key}
-        onClick={changeWindow}
+        onClick={() => navigate(path)}
         sx={{
           justifyContent: "flex-start",
           color: grey[50],
           width: 65,
-          // my: 1,
           marginLeft: 3,
           borderTopLeftRadius: 40,
           borderBottomLeftRadius: 40,
