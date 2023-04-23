@@ -15,8 +15,11 @@ import Typography from "@mui/material/Typography";
 import EventIcon from "@mui/icons-material/Event";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import FeedIcon from "@mui/icons-material/Feed";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import MapIcon from "@mui/icons-material/Map";
+import PostAddIcon from "@mui/icons-material/PostAdd";
+import DatasetLinkedOutlinedIcon from "@mui/icons-material/DatasetLinkedOutlined";
+import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
+import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 
 // MUI Colors
 import { grey, lightBlue } from "@mui/material/colors";
@@ -28,9 +31,30 @@ export default function Drawer() {
   const [open, setOpen] = useState(true);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const icons = [
-    { iconMUI: <EventIcon />, title: "Event Controler", key: 1 },
-    { iconMUI: <AddLocationAltIcon />, title: "Map Editor", key: 2 },
-    { iconMUI: <FeedIcon />, title: "POI Editor", key: 3 },
+    {
+      iconMUI: <DatasetLinkedOutlinedIcon />,
+      title: "Dataset",
+      path: "/",
+      key: 1,
+    },
+    {
+      iconMUI: <PostAddIcon />,
+      title: "Edit Dataset",
+      path: "/POIEditor",
+      key: 2,
+    },
+    {
+      iconMUI: <AddLocationAltIcon />,
+      title: "Map Editor",
+      path: "/MapEditor",
+      key: 3,
+    },
+    {
+      iconMUI: <EventIcon />,
+      title: "Event Controller",
+      path: "/EventController",
+      key: 4,
+    },
   ];
 
   // Functions
@@ -96,7 +120,7 @@ export default function Drawer() {
             },
           }}
         >
-          <ExitToAppIcon sx={{ transform: "rotate(180deg)" }} />
+          <ArrowBackIosNewOutlinedIcon />
         </IconButton>
       </Box>
     </Box>
@@ -117,7 +141,7 @@ export default function Drawer() {
       }}
     >
       <IconButton onClick={handleDrawer}>
-        <ExitToAppIcon sx={{ color: grey[50] }} />
+        <ArrowForwardIosOutlinedIcon sx={{ color: grey[50] }} />
       </IconButton>
     </Box>
   );
