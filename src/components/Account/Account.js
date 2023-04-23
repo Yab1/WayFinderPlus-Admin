@@ -1,26 +1,22 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 // MUI Components
-import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
 
 // MUI Icons
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import Logout from "@mui/icons-material/Logout";
 
-function AccountMenu({ handleLog }) {
+function AccountMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -28,59 +24,67 @@ function AccountMenu({ handleLog }) {
     setAnchorEl(null);
   };
   return (
-    <React.Fragment>
-      <IconButton
-        sx={{ position: "absolute", right: 20, top: 5 }}
-        onClick={handleClick}
-        size="small"
-        aria-controls={open ? "account-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-      >
-        <Avatar sx={{ width: 30, height: 30 }}>M</Avatar>
-      </IconButton>
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        PaperProps={{
-          sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.32))",
-            px: 1,
-            mr: 3,
-            "&:before": {
-              bgcolor: "primary.main",
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: -6,
-              left: 75,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(10%) rotate(45deg)",
-              zIndex: 0,
-            },
-          },
-        }}
-      >
-        <MenuItem onClick={handleLog} sx={{ p: 0 }}>
-          Logout
-          <ListItemIcon>
-            <IconButton></IconButton>
-            <Logout fontSize="small" onClick={handleLog} />
-          </ListItemIcon>
-        </MenuItem>
-      </Menu>
-    </React.Fragment>
+    <AuthContext.Consumer>
+      {context => {
+        const { logout } = context;
+        return (
+          <React.Fragment>
+            <IconButton
+              sx={{ position: "absolute", right: 20, top: 5 }}
+              onClick={handleClick}
+              size="small"
+              aria-controls={open ? "account-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+            >
+              <Avatar sx={{ width: 30, height: 30 }}>M</Avatar>
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                sx: {
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.32))",
+                  px: 1,
+                  mr: 3,
+                  "&:before": {
+                    content: '""',
+                    display: "block",
+                    position: "absolute",
+                    top: -6,
+                    left: 75,
+                    width: 10,
+                    height: 10,
+                    bgcolor: "background.paper",
+                    transform: "translateY(10%) rotate(45deg)",
+                    zIndex: 0,
+                  },
+                },
+              }}
+            >
+              <MenuItem
+                sx={{ p: 0 }}
+                onClick={() => {
+                  navigate("/");
+                  logout();
+                }}
+              >
+                Logout
+                <ListItemIcon>
+                  <IconButton></IconButton>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+              </MenuItem>
+            </Menu>
+          </React.Fragment>
+        );
+      }}
+    </AuthContext.Consumer>
   );
 }
-
-AccountMenu.prototype = {
-  handleLog: PropTypes.func.isRequired,
-};
 
 export default AccountMenu;
