@@ -1,7 +1,14 @@
+import { app } from "../firebase/connection";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-const auth = getAuth();
 
-export function authentication(user) {
-  // console.log(user);
+export default async function authentication(currentUser) {
+  const auth = getAuth(app);
+  signInWithEmailAndPassword(auth, currentUser.email, currentUser.password)
+    .then(cred => {
+      console.log(cred.user);
+      console.log("here");
+    })
+    .catch(err => {
+      console.log(err.message);
+    });
 }
-// signInWithEmailAndPassword(auth);
