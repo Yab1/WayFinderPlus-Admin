@@ -3,6 +3,7 @@ import { BuildingsContext } from "../contexts/BuildingsContext";
 import StyledCard from "../shared/card";
 
 // MUI Components
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
@@ -23,9 +24,10 @@ function POIEditor() {
   const [error, setError] = useState({ number: false, category: false });
 
   const category = [
+    { value: "Area", key: 0 },
     { value: "Cafeteria", key: 1 },
     { value: "Class Room", key: 2 },
-    { value: "Dormitary", key: 3 },
+    { value: "Dormitory", key: 3 },
     { value: "Laboratory", key: 4 },
     { value: "Library", key: 5 },
     { value: "Lounge", key: 6 },
@@ -60,11 +62,18 @@ function POIEditor() {
             <Typography variant="h6" sx={{ mb: 1, color: "primary.main" }}>
               POI EDITOR
             </Typography>
-            <form
+            <Box
+              component="form"
               noValidate
               autoCorrect="off"
-              style={{
-                width: "30%",
+              sx={{
+                width: {
+                  xs: "80%",
+                  sm: "80%",
+                  md: "60%",
+                  lg: "40%",
+                  xl: "40%",
+                },
                 display: "flex",
                 flexDirection: "column",
               }}
@@ -163,7 +172,7 @@ function POIEditor() {
               >
                 Submit
               </Button>
-            </form>
+            </Box>
           </StyledCard>
         );
       }}
