@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { createContext } from "react";
+import { createContext, useState, useEffect } from "react";
 import {
   getFirestore,
   collection,
@@ -8,14 +7,31 @@ import {
   addDoc,
   deleteDoc,
   doc,
+  query,
+  orderBy,
 } from "firebase/firestore";
 
 export const BuildingsContext = createContext();
 
 export default function BuildingsContextProvider({ children }) {
   const db = getFirestore();
+  const [buildings, setBuildings] = useState([]);
 
-  async function getData() {
+  useEffect(() => {
+    const db = getFirestore();
+    // Real Time data gathering
+    const colRef = collection(db, "buildingCollection");
+    const queuedRef = query(colRef, orderBy("buildingNumber"));
+    onSnapshot(queuedRef, snapshot => {
+      let data = [];
+      snapshot.docs.forEach(doc => {
+        data.push({ ...doc.data(), id: doc.id });
+      });
+      setBuildings(data);
+    });
+  }, []);
+
+  async function getCollectionOnce() {
     let data = [];
     try {
       const colRef = await collection(db, "buildingCollection");
@@ -28,36 +44,37 @@ export default function BuildingsContextProvider({ children }) {
     // setBuildings(buildings);
   }
 
-  // Real time Data collection
-  const colRef = collection(db, "buildingCollection");
-  var buildings = [];
-  onSnapshot(colRef, snapshot => {
-    buildings = [];
-    snapshot.docs.forEach(doc => buildings.push({ ...doc.data(), id: doc.id }));
-    console.log(buildings);
-  });
-
-  async function addData(form) {
+  async function addData({
+    buildingNumber,
+    buildingCategory,
+    buildingName,
+    buildingDescription,
+  }) {
+    const colRef = await collection(db, "buildingCollection");
     let date =
       new Date().getDate() +
       "-" +
       (new Date().getMonth() + 1) +
       "-" +
       new Date().getFullYear();
-    const colRef = await collection(db, "buildingCollection");
-    addDoc(colRef, {
-      ...form,
-      created_at: date,
-    });
-  }
 
+    let data = {
+      buildingNumber,
+      buildingCategory,
+      buildingName: buildingName === "" ? "unnamed" : buildingName,
+      buildingDescription:
+        buildingDescription === "" ? "No Data" : buildingDescription,
+      created_at: date,
+    };
+
+    addDoc(colRef, data);
+  }
   async function deleteData(id) {
     const docRef = doc(db, "buildingCollection", id);
     deleteDoc(docRef);
-    // console.log("delete me:", id);
   }
 
-  const value = { getData, addData, deleteData, buildings };
+  const value = { addData, deleteData, buildings };
   return (
     <BuildingsContext.Provider value={value}>
       {children}
