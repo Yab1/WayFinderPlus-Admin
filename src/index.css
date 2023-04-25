@@ -13,11 +13,6 @@ code {
     monospace;
 }
 .visuals{
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: rgba(9, 48, 52, 1.0); 
   background: linear-gradient(135deg, rgba(9, 48, 52, 1.0), rgba(193, 49, 132, 1.0));
-  width: 100dvw;
-  height: 100dvh;
 }
