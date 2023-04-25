@@ -5,16 +5,11 @@ import Tool from "./tool";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
 import Avatar from "@mui/material/Avatar";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Typography from "@mui/material/Typography";
 
 //MUI Icons
 import EventIcon from "@mui/icons-material/Event";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
-import FeedIcon from "@mui/icons-material/Feed";
 import MapIcon from "@mui/icons-material/Map";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import DatasetLinkedOutlinedIcon from "@mui/icons-material/DatasetLinkedOutlined";
@@ -29,7 +24,6 @@ const drawerHeight = "85%";
 
 export default function Drawer() {
   const [open, setOpen] = useState(true);
-  const [anchorElUser, setAnchorElUser] = useState(null);
   const icons = [
     {
       iconMUI: <DatasetLinkedOutlinedIcon />,
@@ -61,25 +55,13 @@ export default function Drawer() {
   const handleDrawer = () => {
     setOpen(!open);
   };
-  const changeWindow = () => {
-    console.log("clicked");
-  };
-  const handleOpenUserMenu = event => {
-    setAnchorElUser(event.currentTarget);
-  };
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-  const expandDrawer = () => {
-    console.log("width");
-  };
 
   return open ? (
     <Box
       sx={{
         positon: "absolute",
-        display: "flex",
         height: "100dvh",
+        display: { xs: "none", sm: "none", md: "fixed", xl: "fixed" },
         alignItems: "center",
       }}
     >
@@ -110,7 +92,7 @@ export default function Drawer() {
 
         {/* Close Drawer */}
         <IconButton
-          onClick={handleDrawer}
+          onClick={() => handleDrawer()}
           sx={{
             color: grey[50],
             my: 1,
