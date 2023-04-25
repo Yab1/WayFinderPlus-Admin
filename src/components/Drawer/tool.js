@@ -1,40 +1,36 @@
-import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 // MUI Components
-import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-
-//MUI Icons
-import EventIcon from "@mui/icons-material/Event";
-import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
-import FeedIcon from "@mui/icons-material/Feed";
 
 // MUI Colors
 import { grey } from "@mui/material/colors";
 
-const drawerWidth = 60;
-const drawerHeight = "94%";
+const drawerWidth = 65;
 
-function Tool({ icon: { title, iconMUI, key, path } }) {
+function Tool({ icon }) {
   const navigate = useNavigate();
 
   return (
-    <Tooltip title={title} placement="right" disableInteractive>
+    <Tooltip title={icon.title} placement="right" disableInteractive>
       <IconButton
-        key={key}
-        onClick={() => navigate(path)}
+        disableRipple
+        component="button"
+        id={icon.key}
+        onClick={() => {
+          navigate(icon.path);
+        }}
         sx={{
           justifyContent: "flex-start",
           color: grey[50],
-          width: 65,
+          width: drawerWidth,
           marginLeft: 3,
           borderTopLeftRadius: 40,
           borderBottomLeftRadius: 40,
           transition: "background 600ms linear,color 250ms linear",
           "&:hover": {
-            bgcolor: "transparent",
             color: grey[900],
           },
           "&:focus": {
@@ -43,7 +39,7 @@ function Tool({ icon: { title, iconMUI, key, path } }) {
           },
         }}
       >
-        {iconMUI}
+        {icon.iconMUI}
       </IconButton>
     </Tooltip>
   );
