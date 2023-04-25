@@ -1,17 +1,20 @@
 // MUI Components
 import Card from "@mui/material/Card";
 
-export default function StyledCard({ children }) {
+export default function StyledCard({ children, start }) {
   return (
     <Card
       variant="outlined"
       sx={{
-        width: "91%",
+        width: "100%",
+        // height: {sm:'90%'},
+        positon: "relative",
+        zIndex: 15,
         my: 5.5,
-        mx: "auto",
+        mx: "1%",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: !start ? "center" : "flex-start",
         alignItems: "center",
       }}
     >
