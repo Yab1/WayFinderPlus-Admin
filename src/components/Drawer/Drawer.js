@@ -115,7 +115,7 @@ export default function Drawer() {
         height: 50,
         mt: 7,
         borderRadius: 5,
-        display: "flex",
+        display: { xs: "none", sm: "none", md: "fixed", xl: "fixed" },
         alignItems: "center",
         borderTopLeftRadius: 0,
         borderBottomLeftRadius: 0,
