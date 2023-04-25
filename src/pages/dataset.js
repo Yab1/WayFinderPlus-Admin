@@ -2,6 +2,7 @@ import { BuildingsContext } from "../contexts/BuildingsContext";
 import Row from "../shared/row";
 
 // MUI Components
+import { styled } from "@mui/material/styles";
 import StyledCard from "../shared/card";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,22 +13,33 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 export default function Dataset() {
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.MuiTableCell-head`]: {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.common.white,
+    },
+  }));
+
   return (
     <BuildingsContext.Consumer>
       {context => {
         const { buildings, deleteData } = context;
         return (
-          <StyledCard>
+          <StyledCard start={true}>
             <TableContainer component={Paper}>
-              <Table aria-label="collapsible table">
-                <TableHead>
+              <Table aria-label="buildings dataset table">
+                <TableHead sx={{ bg: "primary.main" }}>
                   <TableRow>
-                    <TableCell />
-                    <TableCell>Building Number</TableCell>
-                    <TableCell align="right">Building Category</TableCell>
-                    <TableCell align="right">Building Name</TableCell>
-                    <TableCell align="right">Building Description</TableCell>
-                    <TableCell align="right">created_at</TableCell>
+                    <StyledTableCell align="left">
+                      Building Number
+                    </StyledTableCell>
+                    <StyledTableCell align="left">Category</StyledTableCell>
+                    <StyledTableCell align="left">
+                      Building Name
+                    </StyledTableCell>
+                    <StyledTableCell align="left">Description</StyledTableCell>
+                    <StyledTableCell align="left">Created at</StyledTableCell>
+                    <StyledTableCell />
                   </TableRow>
                 </TableHead>
                 <TableBody>
