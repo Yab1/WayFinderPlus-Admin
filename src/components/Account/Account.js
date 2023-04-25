@@ -30,7 +30,7 @@ function AccountMenu() {
         return (
           <React.Fragment>
             <IconButton
-              sx={{ position: "absolute", right: 20, top: 5 }}
+              sx={{ position: "absolute", right: 20, top: 5, zIndex: 50 }}
               onClick={handleClick}
               size="small"
               aria-controls={open ? "account-menu" : undefined}
