@@ -1,8 +1,12 @@
 // Components
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Drawer from "./components/Drawer/Drawer";
+import MobileSpeedDial from "./components/Drawer/MobileSpeedDial";
 import Account from "./components/Account/Account";
-import LoginForm from "./components/Login/loginForm";
+import SearchIcon from "./components/Search/SearchBar";
+import LoginForm from "./components/Login/LoginForm";
+
+// pages
 import Dataset from "./pages/dataset";
 import EventController from "./pages/eventController";
 import MapEditor from "./pages/mapEditor";
@@ -15,7 +19,12 @@ function App() {
   return (
     <div
       className="App"
-      style={{ height: "100dvh", width: "100dvw", display: "flex" }}
+      style={{
+        height: "100dvh",
+        width: "100dvw",
+        display: "flex",
+        flexDirection: { xs: "column", sm: "column", md: "row", lg: "row" },
+      }}
     >
       <AuthContext.Consumer>
         {context => {
@@ -29,6 +38,7 @@ function App() {
                   <BrowserRouter>
                     <Drawer />
                     <Account />
+                    <SearchIcon />
                     <Routes>
                       <Route exact path="/" element={<Dataset />} />
                       <Route
@@ -38,6 +48,7 @@ function App() {
                       <Route path="/MapEditor" element={<MapEditor />} />
                       <Route path="/POIEditor" element={<POIEditor />} />
                     </Routes>
+                    <MobileSpeedDial />
                   </BrowserRouter>
                 </>
               )}
