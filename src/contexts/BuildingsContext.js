@@ -22,9 +22,9 @@ export default function BuildingsContextProvider({ children }) {
     // Real Time data gathering
     const colRef = collection(db, "buildingCollection");
     const queuedRef = query(colRef, orderBy("buildingNumber"));
-    onSnapshot(queuedRef, snapshot => {
+    onSnapshot(queuedRef, (snapshot) => {
       let data = [];
-      snapshot.docs.forEach(doc => {
+      snapshot.docs.forEach((doc) => {
         data.push({ ...doc.data(), id: doc.id });
       });
       setBuildings(data);
@@ -34,9 +34,9 @@ export default function BuildingsContextProvider({ children }) {
   async function getCollectionOnce() {
     let data = [];
     try {
-      const colRef = await collection(db, "buildingCollection");
+      const colRef = collection(db, "buildingCollection");
       const snapshot = await getDocs(colRef);
-      snapshot.docs.forEach(doc => data.push({ ...doc.data(), id: doc.id }));
+      snapshot.docs.forEach((doc) => data.push({ ...doc.data(), id: doc.id }));
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -45,12 +45,13 @@ export default function BuildingsContextProvider({ children }) {
   }
 
   async function addData({
+    geoHash,
     buildingNumber,
     buildingCategory,
     buildingName,
     buildingDescription,
   }) {
-    const colRef = await collection(db, "buildingCollection");
+    const colRef = collection(db, "buildingCollection");
     let date =
       new Date().getDate() +
       "-" +
@@ -59,6 +60,7 @@ export default function BuildingsContextProvider({ children }) {
       new Date().getFullYear();
 
     let data = {
+      geoHash,
       buildingNumber,
       buildingCategory,
       buildingName: buildingName === "" ? "unnamed" : buildingName,
@@ -66,8 +68,7 @@ export default function BuildingsContextProvider({ children }) {
         buildingDescription === "" ? "No Data" : buildingDescription,
       created_at: date,
     };
-
-    addDoc(colRef, data);
+    // addDoc(colRef, data);
   }
   async function deleteData(id) {
     const docRef = doc(db, "buildingCollection", id);
