@@ -14,10 +14,10 @@ function MapEditor() {
     buildingName: "",
     buildingDescription: "",
   });
+  const [marker, setMarker] = useState(null);
   const handlePoi = (value) => {
     setPoi(value);
   };
-  const marker = new mapboxgl.Marker();
 
   useEffect(() => {
     mapboxgl.accessToken =
@@ -30,7 +30,11 @@ function MapEditor() {
     });
     map.on("click", (event) => {
       const { lng, lat } = event.lngLat;
-      marker.setLngLat([lng, lat]).addTo(map);
+      if (marker) {
+        marker.remove();
+      }
+      const newMarker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
+      setMarker(newMarker);
       if (lng && lat) {
         const hash = getGeohash(lat, lng);
         setPoi((prevPoi) => ({ ...prevPoi, geoHash: hash }));
