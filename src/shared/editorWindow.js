@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BuildingsContext } from "../contexts/BuildingsContext";
+import { MapContext } from "../contexts/MapContext";
 
 // MUI Components
 import Box from "@mui/material/Box";
@@ -13,13 +13,7 @@ import Stack from "@mui/material/Stack";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import SendIcon from "@mui/icons-material/Send";
 
-function EditorWindow({ coordinates }) {
-  const [poi, setPoi] = useState({
-    buildingNumber: "",
-    buildingCategory: "",
-    buildingName: "",
-    buildingDescription: "",
-  });
+function EditorWindow({ poi, handlePoi, marker }) {
   const [error, setError] = useState({ number: false, category: false });
 
   const category = [
@@ -45,13 +39,19 @@ function EditorWindow({ coordinates }) {
       }));
   };
   return (
-    <BuildingsContext.Consumer>
+    <MapContext.Consumer>
       {(context) => {
         const { addData } = context;
         const middleMan = () => {
-          if (poi.buildingNumber && poi.buildingCategory) {
+          if (poi.geoHash && poi.buildingNumber && poi.buildingCategory) {
+            console.log("working middleman");
+            console.log(poi);
             addData(poi);
-            setPoi({
+            if (marker) {
+              marker.remove();
+            }
+            handlePoi({
+              geoHash: "",
               buildingNumber: "",
               buildingCategory: "",
               buildingName: "",
@@ -79,18 +79,8 @@ function EditorWindow({ coordinates }) {
                 },
                 display: "flex",
                 flexDirection: "column",
-                border: "0.1em solid black",
               }}
             >
-              <Typography variant="body2">Building Coordinates</Typography>
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Typography variant="caption">
-                  longitude: {coordinates.longitude}
-                </Typography>
-                <Typography variant="caption">
-                  latitude: {coordinates.latitude}
-                </Typography>
-              </Box>
               <Stack spacing={3}>
                 <TextField
                   error={error.number}
@@ -102,7 +92,7 @@ function EditorWindow({ coordinates }) {
                   label="Building Number"
                   value={poi.buildingNumber}
                   onChange={(e) =>
-                    setPoi((prevPoi) => ({
+                    handlePoi((prevPoi) => ({
                       ...prevPoi,
                       buildingNumber: e.target.value,
                     }))
@@ -119,7 +109,7 @@ function EditorWindow({ coordinates }) {
                   defaultValue=""
                   value={poi.buildingCategory}
                   onChange={(e) =>
-                    setPoi((prevPoi) => ({
+                    handlePoi((prevPoi) => ({
                       ...prevPoi,
                       buildingCategory: e.target.value,
                     }))
@@ -143,7 +133,7 @@ function EditorWindow({ coordinates }) {
                   label="Building Name"
                   value={poi.buildingName}
                   onChange={(e) =>
-                    setPoi((prevPoi) => ({
+                    handlePoi((prevPoi) => ({
                       ...prevPoi,
                       buildingName: e.target.value,
                     }))
@@ -158,7 +148,7 @@ function EditorWindow({ coordinates }) {
                   variant="standard"
                   value={poi.buildingDescription}
                   onChange={(e) =>
-                    setPoi((prevPoi) => ({
+                    handlePoi((prevPoi) => ({
                       ...prevPoi,
                       buildingDescription: e.target.value,
                     }))
@@ -190,7 +180,7 @@ function EditorWindow({ coordinates }) {
           </>
         );
       }}
-    </BuildingsContext.Consumer>
+    </MapContext.Consumer>
   );
 }
 
