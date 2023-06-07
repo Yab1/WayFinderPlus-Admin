@@ -15,7 +15,7 @@ export const MapContext = createContext();
 
 export default function MapContextProvider({ children }) {
   const db = getFirestore();
-  const [buildings, setBuildings] = useState([]);
+  const [buildingsData, setBuildingsData] = useState([]);
 
   useEffect(() => {
     const db = getFirestore();
@@ -27,7 +27,7 @@ export default function MapContextProvider({ children }) {
       snapshot.docs.forEach((doc) => {
         data.push({ ...doc.data(), id: doc.id });
       });
-      setBuildings(data);
+      setBuildingsData(data);
     });
   }, []);
 
@@ -42,7 +42,7 @@ export default function MapContextProvider({ children }) {
     } catch (error) {
       console.log(error);
     }
-    // setBuildings(buildings);
+    // setBuildingsData(buildingsData);
   }
 
   async function addData({
@@ -76,6 +76,6 @@ export default function MapContextProvider({ children }) {
     deleteDoc(docRef);
   }
 
-  const value = { addData, deleteData, buildings };
+  const value = { addData, deleteData, buildingsData };
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>;
 }
