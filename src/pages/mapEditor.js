@@ -3,7 +3,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import StyledCard from "../shared/card";
 import EditorWindow from "../shared/editorWindow";
 import mapboxgl from "mapbox-gl";
-import getGeohash from "../firebase/geoHash";
+import getGeohash from "../services/firebase/geoHash";
 import { LegendToggleRounded } from "@mui/icons-material";
 
 function MapEditor() {
