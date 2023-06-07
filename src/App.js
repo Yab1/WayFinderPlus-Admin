@@ -7,6 +7,7 @@ import SearchIcon from "./components/Search/SearchBar";
 import LoginForm from "./components/Login/LoginForm";
 
 // pages
+import StreetView from "./pages/streetView";
 import Dataset from "./pages/dataset";
 import EventController from "./pages/eventController";
 import MapEditor from "./pages/mapEditor";
@@ -27,7 +28,7 @@ function App() {
       }}
     >
       <AuthContext.Consumer>
-        {context => {
+        {(context) => {
           const { logged } = context;
           return (
             <>
@@ -40,7 +41,8 @@ function App() {
                     <Account />
                     <SearchIcon />
                     <Routes>
-                      <Route exact path="/" element={<Dataset />} />
+                      <Route exact path="/" element={<StreetView />} />
+                      <Route exact path="/Dataset" element={<Dataset />} />
                       <Route
                         path="/EventController"
                         element={<EventController />}
