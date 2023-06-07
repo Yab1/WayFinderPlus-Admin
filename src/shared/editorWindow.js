@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MapContext } from "../contexts/MapContext";
+import tester from "../services/googleDrive/connection";
 
 // MUI Components
 import Box from "@mui/material/Box";
@@ -44,8 +45,6 @@ function EditorWindow({ poi, handlePoi, marker }) {
         const { addData } = context;
         const middleMan = () => {
           if (poi.geoHash && poi.buildingNumber && poi.buildingCategory) {
-            console.log("working middleman");
-            console.log(poi);
             addData(poi);
             if (marker) {
               marker.remove();
@@ -156,7 +155,7 @@ function EditorWindow({ poi, handlePoi, marker }) {
                 />
 
                 <Button
-                  disabled
+                  id="pictureInput"
                   variant="outlined"
                   component="label"
                   endIcon={<PhotoCamera />}
