@@ -12,6 +12,7 @@ import EventIcon from "@mui/icons-material/Event";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import MapIcon from "@mui/icons-material/Map";
 import PostAddIcon from "@mui/icons-material/PostAdd";
+import StreetviewIcon from "@mui/icons-material/Streetview";
 import DatasetLinkedOutlinedIcon from "@mui/icons-material/DatasetLinkedOutlined";
 import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
@@ -26,9 +27,15 @@ export default function Drawer() {
   const [open, setOpen] = useState(true);
   const icons = [
     {
+      iconMUI: <StreetviewIcon />,
+      title: "Map View",
+      path: "/",
+      key: 0,
+    },
+    {
       iconMUI: <DatasetLinkedOutlinedIcon />,
       title: "Dataset",
-      path: "/",
+      path: "/Dataset",
       key: 1,
     },
     {
@@ -86,7 +93,7 @@ export default function Drawer() {
         <Toolbar />
 
         {/* Tools */}
-        {icons.map(icon => (
+        {icons.map((icon) => (
           <Tool icon={icon} key={icon.key} />
         ))}
 
