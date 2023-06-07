@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { app } from "../firebase/connection";
+import { app } from "../services/firebase/connection";
 
 export const AuthContext = createContext();
 
@@ -18,15 +18,15 @@ export default function AuthContextProvider({ children }) {
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
   }, [logged, currentUser]);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const id = e.target.id;
     const value = e.target.value;
     id === "email"
-      ? setUserInput(prevUser => ({
+      ? setUserInput((prevUser) => ({
           ...prevUser,
           email: value,
         }))
-      : setUserInput(prevUser => ({
+      : setUserInput((prevUser) => ({
           ...prevUser,
           password: value,
         }));
@@ -37,11 +37,11 @@ export default function AuthContextProvider({ children }) {
     setCurrentUser();
     setErrorMsg("");
     signInWithEmailAndPassword(auth, userInput.email, userInput.password)
-      .then(cred => {
+      .then((cred) => {
         setCurrentUser(cred.user);
         setLogged(!logged);
       })
-      .catch(err => {
+      .catch((err) => {
         setErrorMsg(err.code.split("/")[1]);
         console.log(errorMsg);
       });
