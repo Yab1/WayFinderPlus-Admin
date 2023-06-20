@@ -11,7 +11,7 @@ import ListItemText from "@mui/material/ListItemText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 
-function Popup({ open, building, handleClose, deleteData }) {
+function Popup({ open, building, handleClose, deleteData, handleMarkerClick }) {
   return (
     <Dialog open={open}>
       <DialogTitle>Confirmation</DialogTitle>
@@ -45,7 +45,10 @@ function Popup({ open, building, handleClose, deleteData }) {
       <DialogActions>
         <Button
           sx={{ mr: "auto", color: "error.light" }}
-          onClick={() => deleteData(building.id)}
+          onClick={() => {
+            deleteData(building.id);
+            handleMarkerClick();
+          }}
         >
           Delete
         </Button>
@@ -60,6 +63,14 @@ Popup.prototypes = {
   building: PropTypes.object,
   handleClose: PropTypes.func,
   deleteData: PropTypes.func,
+  handleMarkerClick: PropTypes.func,
+};
+Popup.defaultProps = {
+  open: false,
+  building: null,
+  handleClose: () => {},
+  deleteData: () => {},
+  handleMarkerClick: () => {},
 };
 
 export default Popup;

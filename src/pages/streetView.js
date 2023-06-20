@@ -1,72 +1,76 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { MapContext } from "../contexts/MapContext";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import CustomData from "../components/customData";
+import decodeCoordinates from "../functions/decodeCoordinates";
 import createMarker from "../functions/createMarker";
-
 import StyledCard from "../shared/card";
+import ShowCard from "../shared/showCard";
 
 function StreetView() {
+  // States
   const [map, setMap] = useState(null);
-  const [coordinates, setCoordinates] = useState([]);
+  const [decodedBuildingData, setDecodedBuildingData] = useState([]);
+  const [clickedMarkerId, setClickedMarkerId] = useState(null);
+
+  // For conditional rendering
   const [markers, setMarkers] = useState([]);
+  const [showCard, setShowCard] = useState(false);
 
-  const handleMarkers = function (pin) {
-    setMarkers(pin);
+  // Context
+  const { buildingsData } = useContext(MapContext);
+
+  const closeCard = () => {
+    setShowCard(!showCard);
   };
 
-  const handleCoordinates = (id, latitude, longitude) => {
-    map &&
-      setCoordinates((prevLocation) => {
-        return [
-          ...prevLocation,
-          {
-            id: id,
-            map: map,
-            latitude: latitude,
-            longitude: longitude,
-          },
-        ];
-      });
+  const handleMarkerClick = (markerId) => {
+    setClickedMarkerId(markerId);
+    setShowCard(!showCard);
   };
+
   useEffect(() => {
     mapboxgl.accessToken =
       "pk.eyJ1IjoiYWZyb2hhYmVzaGEiLCJhIjoiY2xnb3F0cDYzMGYzNjNlb2d2dXhtdzRqbSJ9.JW2kyDZjoOWoXVPG5Giw7g";
     const mapBox = new mapboxgl.Map({
-      container: "map",
+      container: "mapBox",
       style: "mapbox://styles/mapbox/streets-v10",
       center: [39.29039343419677, 8.563261132878523],
       zoom: 16,
     });
+    const decodedData = decodeCoordinates(buildingsData);
+    setDecodedBuildingData([...decodedData]);
     setMap(mapBox);
-    createMarker(map, coordinates, handleMarkers);
-    console.table(markers);
     return () => {
       mapBox.remove();
+      markers.forEach((marker) => marker.remove());
     };
-  }, [coordinates]);
+  }, [buildingsData]);
+
+  useEffect(() => {
+    if (markers && map && decodedBuildingData.length > 0) {
+      markers.forEach((marker) => marker.remove());
+      const newMarkers = createMarker(
+        map,
+        decodedBuildingData,
+        handleMarkerClick
+      );
+      setMarkers(newMarkers);
+    }
+  }, [decodedBuildingData]);
 
   return (
-    <MapContext.Consumer>
-      {(context) => {
-        const { buildingsData } = context;
-        return (
-          <>
-            <CustomData
-              buildingsData={buildingsData}
-              handleCoordinates={handleCoordinates}
-            />
-            <StyledCard>
-              <div
-                id="map"
-                style={{ minWidth: "100%", minHeight: "100%" }}
-              ></div>
-            </StyledCard>
-          </>
-        );
-      }}
-    </MapContext.Consumer>
+    <StyledCard>
+      {showCard && (
+        <ShowCard
+          clickedMarkerId={clickedMarkerId}
+          buildingsData={buildingsData}
+          closeCard={closeCard}
+          handleMarkerClick={handleMarkerClick}
+        />
+      )}
+      <div id="mapBox" style={{ minWidth: "100%", minHeight: "100%" }}></div>
+    </StyledCard>
   );
 }
 export default StreetView;

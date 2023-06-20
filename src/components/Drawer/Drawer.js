@@ -11,7 +11,6 @@ import Avatar from "@mui/material/Avatar";
 import EventIcon from "@mui/icons-material/Event";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import MapIcon from "@mui/icons-material/Map";
-import PostAddIcon from "@mui/icons-material/PostAdd";
 import StreetviewIcon from "@mui/icons-material/Streetview";
 import DatasetLinkedOutlinedIcon from "@mui/icons-material/DatasetLinkedOutlined";
 import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
@@ -29,7 +28,7 @@ export default function Drawer() {
     {
       iconMUI: <StreetviewIcon />,
       title: "Map View",
-      path: "/",
+      path: "/Map",
       key: 0,
     },
     {
@@ -39,22 +38,16 @@ export default function Drawer() {
       key: 1,
     },
     {
-      iconMUI: <PostAddIcon />,
-      title: "Edit Dataset",
-      path: "/POIEditor",
-      key: 2,
-    },
-    {
       iconMUI: <AddLocationAltIcon />,
       title: "Map Editor",
       path: "/MapEditor",
-      key: 3,
+      key: 2,
     },
     {
       iconMUI: <EventIcon />,
       title: "Event Controller",
       path: "/EventController",
-      key: 4,
+      key: 3,
     },
   ];
 

@@ -64,7 +64,7 @@ export default function MapContextProvider({ children }) {
       geoHash,
       buildingNumber,
       buildingCategory,
-      buildingName: buildingName === "" ? "unnamed" : buildingName,
+      buildingName: buildingName === "" ? `B${buildingNumber}` : buildingName,
       buildingDescription:
         buildingDescription === "" ? "No Data" : buildingDescription,
       created_at: date,
@@ -72,7 +72,7 @@ export default function MapContextProvider({ children }) {
     addDoc(colRef, data);
   }
   async function deleteData(id) {
-    const docRef = doc(db, "buildingCollection", id);
+    const docRef = doc(db, "buildingDataCollection", id);
     deleteDoc(docRef);
   }
 

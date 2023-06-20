@@ -11,7 +11,6 @@ import StreetView from "./pages/streetView";
 import Dataset from "./pages/dataset";
 import EventController from "./pages/eventController";
 import MapEditor from "./pages/mapEditor";
-import POIEditor from "./pages/poiEditor";
 
 // Hook, Contexts & Functions
 import { AuthContext } from "./contexts/AuthContext.js";
@@ -41,14 +40,13 @@ function App() {
                     <Account />
                     <SearchIcon />
                     <Routes>
-                      <Route exact path="/" element={<StreetView />} />
+                      <Route exact path="/Map" element={<StreetView />} />
                       <Route exact path="/Dataset" element={<Dataset />} />
                       <Route
                         path="/EventController"
                         element={<EventController />}
                       />
                       <Route path="/MapEditor" element={<MapEditor />} />
-                      <Route path="/POIEditor" element={<POIEditor />} />
                     </Routes>
                     <MobileSpeedDial />
                   </BrowserRouter>

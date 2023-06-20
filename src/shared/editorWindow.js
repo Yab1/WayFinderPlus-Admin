@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { MapContext } from "../contexts/MapContext";
-import tester from "../services/googleDrive/connection";
+import categories from "../utils/categories";
 
 // MUI Components
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
@@ -17,18 +16,6 @@ import SendIcon from "@mui/icons-material/Send";
 function EditorWindow({ poi, handlePoi, marker }) {
   const [error, setError] = useState({ number: false, category: false });
 
-  const category = [
-    { value: "Area", key: 0 },
-    { value: "Cafeteria", key: 1 },
-    { value: "Class Room", key: 2 },
-    { value: "Dormitory", key: 3 },
-    { value: "Laboratory", key: 4 },
-    { value: "Library", key: 5 },
-    { value: "Lounge", key: 6 },
-    { value: "Office", key: 7 },
-    { value: "Public Toilet", key: 8 },
-    { value: "Others", key: 9 },
-  ];
   const handleError = () => {
     setError({ number: false, category: false });
     poi.buildingNumber === "" &&
@@ -68,8 +55,8 @@ function EditorWindow({ poi, handlePoi, marker }) {
                 position: "absolute",
                 background: "white",
                 padding: "20px",
+                right: "5%",
                 width: {
-                  right: "5%",
                   xs: "60%",
                   sm: "60%",
                   md: "40%",
@@ -114,7 +101,7 @@ function EditorWindow({ poi, handlePoi, marker }) {
                     }))
                   }
                 >
-                  {category.map((option) => (
+                  {categories.map((option) => (
                     <MenuItem
                       key={option.key}
                       value={option.value}

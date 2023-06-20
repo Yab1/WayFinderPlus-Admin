@@ -4,7 +4,6 @@ import StyledCard from "../shared/card";
 import EditorWindow from "../shared/editorWindow";
 import mapboxgl from "mapbox-gl";
 import getGeohash from "../services/firebase/geoHash";
-import { LegendToggleRounded } from "@mui/icons-material";
 
 function MapEditor() {
   const [poi, setPoi] = useState({
