@@ -66,7 +66,9 @@ export default function MapContextProvider({ children }) {
       buildingCategory,
       buildingName: buildingName === "" ? `B${buildingNumber}` : buildingName,
       buildingDescription:
-        buildingDescription === "" ? "No Data" : buildingDescription,
+        buildingDescription === ""
+          ? "No Description Available"
+          : buildingDescription,
       created_at: date,
     };
     addDoc(colRef, data);
