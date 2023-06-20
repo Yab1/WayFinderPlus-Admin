@@ -51,7 +51,6 @@ export default function createMarker(
         });
       }
     });
-    console.log(newMarkers);
     return newMarkers;
   }
 }

@@ -1,7 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { MapContext } from "../contexts/MapContext";
 import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
 import decodeCoordinates from "../functions/decodeCoordinates";
 import createMarker from "../functions/createMarker";
 import StyledCard from "../shared/card";
