@@ -11,13 +11,14 @@ import IconButton from "@mui/material/IconButton";
 
 // MUI Icons
 import Logout from "@mui/icons-material/Logout";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 function AccountMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -25,7 +26,7 @@ function AccountMenu() {
   };
   return (
     <AuthContext.Consumer>
-      {context => {
+      {(context) => {
         const { logout } = context;
         return (
           <React.Fragment>
@@ -37,7 +38,9 @@ function AccountMenu() {
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
-              <Avatar sx={{ width: 30, height: 30 }}>M</Avatar>
+              <Avatar sx={{ width: 30, height: 30 }}>
+                <AccountCircleIcon />
+              </Avatar>
             </IconButton>
             <Menu
               anchorEl={anchorEl}
