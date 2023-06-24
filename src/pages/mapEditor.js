@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import StyledCard from "../shared/card";
 import EditorWindow from "../shared/editorWindow";
@@ -7,13 +7,14 @@ import getGeohash from "../services/firebase/geoHash";
 
 function MapEditor() {
   const [poi, setPoi] = useState({
+    url: "",
     geoHash: "",
     buildingNumber: "",
     buildingCategory: "",
     buildingName: "",
     buildingDescription: "",
   });
-  const [marker, setMarker] = useState(null);
+  const marker = useRef(null);
   const handlePoi = (value) => {
     setPoi(value);
   };
@@ -27,20 +28,23 @@ function MapEditor() {
       center: [39.29039343419677, 8.563261132878523],
       zoom: 16,
     });
-    map.on("click", (event) => {
-      const { lng, lat } = event.lngLat;
-      if (marker) {
-        marker.remove();
+
+    const createMarker = (e) => {
+      const { lng, lat } = e.lngLat;
+      if (marker.current) {
+        marker.current.remove();
       }
       const newMarker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
-      setMarker(newMarker);
+      marker.current = newMarker;
       if (lng && lat) {
         const hash = getGeohash(lat, lng);
         setPoi((prevPoi) => ({ ...prevPoi, geoHash: hash }));
       }
-    });
+    };
+    map.on("click", createMarker);
 
     return () => {
+      map.off("click", createMarker);
       map.remove();
     };
   }, []);
@@ -48,7 +52,7 @@ function MapEditor() {
   return (
     <StyledCard>
       <div id="map" style={{ minWidth: "100%", minHeight: "100%" }}></div>;
-      <EditorWindow poi={poi} marker={marker} handlePoi={handlePoi} />
+      <EditorWindow poi={poi} marker={marker.current} handlePoi={handlePoi} />
     </StyledCard>
   );
 }
