@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { app } from "../services/firebase/connection";
 import {
   getFirestore,
   collection,
@@ -14,45 +15,41 @@ import {
 export const MapContext = createContext();
 
 export default function MapContextProvider({ children }) {
-  const db = getFirestore();
+  const db = getFirestore(app);
   const [buildingsData, setBuildingsData] = useState([]);
-
   useEffect(() => {
-    const db = getFirestore();
-    // Real Time data gathering
-    const colRef = collection(db, "buildingDataCollection");
+    // Real-time data gathering
+    const colRef = collection(
+      db,
+      "Locations",
+      "Adama Science And Technology",
+      "BuildingsData"
+    );
     const queuedRef = query(colRef, orderBy("buildingNumber"));
-    onSnapshot(queuedRef, (snapshot) => {
+    const unsubscribe = onSnapshot(queuedRef, (snapshot) => {
       let data = [];
       snapshot.docs.forEach((doc) => {
         data.push({ ...doc.data(), id: doc.id });
       });
       setBuildingsData(data);
     });
+    return () => unsubscribe();
   }, []);
 
-  async function getCollectionOnce() {
-    let data = [];
-    try {
-      const colRef = collection(db, "buildingDataCollection");
-      const snapshot = await getDocs(colRef);
-      snapshot.docs.forEach((doc) => data.push({ ...doc.data(), id: doc.id }));
-      console.log(snapshot.docs);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-    // setBuildingsData(buildingsData);
-  }
-
   async function addData({
+    url,
     geoHash,
     buildingNumber,
     buildingCategory,
     buildingName,
     buildingDescription,
   }) {
-    const colRef = collection(db, "buildingDataCollection");
+    const colRef = collection(
+      db,
+      "Locations",
+      "Adama Science And Technology",
+      "BuildingsData"
+    );
     let date =
       new Date().getDate() +
       "-" +
@@ -69,12 +66,20 @@ export default function MapContextProvider({ children }) {
         buildingDescription === ""
           ? "No Description Available"
           : buildingDescription,
+      url,
       created_at: date,
     };
     addDoc(colRef, data);
   }
+
   async function deleteData(id) {
-    const docRef = doc(db, "buildingDataCollection", id);
+    const docRef = doc(
+      db,
+      "Locations",
+      "Adama Science And Technology",
+      "BuildingsData",
+      id
+    );
     deleteDoc(docRef);
   }
 
