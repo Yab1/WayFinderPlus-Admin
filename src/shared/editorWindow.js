@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, forwardRef, useContext, useEffect } from "react";
 import { MapContext } from "../contexts/MapContext";
+import { BucketContext } from "../contexts/BucketContext";
 import categories from "../utils/categories";
 
 // MUI Components
@@ -8,41 +9,160 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Chip from "@mui/material/Chip";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 // MUI Icons
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import SendIcon from "@mui/icons-material/Send";
 
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 function EditorWindow({ poi, handlePoi, marker }) {
-  const [error, setError] = useState({ number: false, category: false });
+  const [error, setError] = useState({
+    location: false,
+    number: false,
+    category: false,
+    type: false,
+  });
+  const [snack, setSnack] = useState({
+    open: false,
+    severity: "",
+    message: "",
+  });
+  const [image, setImage] = useState(null);
+  const [imageType, setImageType] = useState("");
+  const [submitDisabled, setSubmitDisabled] = useState(false);
+
+  const { uploadImage, downloadURL, uploadError, trigger } =
+    useContext(BucketContext);
+
+  const { open, severity, message } = snack;
+  let middleMan;
+
+  useEffect(() => {
+    if (downloadURL && submitDisabled === true) {
+      handlePoi((prevPoi) => ({
+        ...prevPoi,
+        url: downloadURL,
+      }));
+      middleMan();
+    }
+  }, [downloadURL]);
 
   const handleError = () => {
-    setError({ number: false, category: false });
+    setError({ location: false, number: false, category: false, type: false });
     poi.buildingNumber === "" &&
       setError((prevError) => ({ ...prevError, number: !prevError.number }));
+    poi.geoHash === "" &&
+      openSnack({
+        severity: "error",
+        message: "Please select a location on the map!",
+      });
     poi.buildingCategory === "" &&
       setError((prevError) => ({
         ...prevError,
         category: !prevError.category,
       }));
+    if (image) {
+      image[0] &&
+        !imageType &&
+        setError((prevError) => ({
+          ...prevError,
+          type: !prevError.type,
+        }));
+    }
+  };
+  const stopImageUpload = () => {
+    setImage(null);
+    setImageType("");
+  };
+  const reset = () => {
+    trigger();
+    setImage(null);
+    setImageType("");
+    handlePoi({
+      url: "",
+      geoHash: "",
+      buildingName: "",
+      buildingNumber: "",
+      buildingCategory: "",
+      buildingDescription: "",
+    });
+    setError((prevError) => ({
+      ...prevError,
+      type: false,
+    }));
+  };
+  const openSnack = (newSnack) => {
+    setSnack((prevSnack) => ({ ...prevSnack, ...newSnack, open: true }));
+  };
+  const closeSnack = () => {
+    setSnack({ ...snack, open: false });
   };
   return (
     <MapContext.Consumer>
       {(context) => {
         const { addData } = context;
-        const middleMan = () => {
-          if (poi.geoHash && poi.buildingNumber && poi.buildingCategory) {
+        middleMan = () => {
+          if (
+            poi.geoHash &&
+            poi.buildingNumber &&
+            poi.buildingCategory &&
+            image &&
+            imageType
+          ) {
+            uploadImage(image[0], poi.buildingNumber, imageType);
+            setSubmitDisabled(true);
+            openSnack({
+              severity: "warning",
+              message:
+                "Upload in progress. Check your internet connection if it takes longer than usual!",
+            });
+            if (poi.url) {
+              addData(poi);
+              if (marker) {
+                marker.remove();
+              }
+              reset();
+              openSnack({
+                severity: "success",
+                message: "Data saved successfully!",
+              });
+              setSubmitDisabled(false);
+            } else {
+              if (uploadError) {
+                openSnack({
+                  severity: "error",
+                  message: uploadError,
+                });
+              }
+            }
+          } else if (
+            poi.geoHash &&
+            poi.buildingNumber &&
+            poi.buildingCategory &&
+            !image &&
+            !imageType
+          ) {
+            setSubmitDisabled(true);
             addData(poi);
+            openSnack({
+              severity: "success",
+              message: "Data saved successfully!",
+            });
+            reset();
             if (marker) {
               marker.remove();
             }
-            handlePoi({
-              geoHash: "",
-              buildingNumber: "",
-              buildingCategory: "",
-              buildingName: "",
-              buildingDescription: "",
-            });
+            setSubmitDisabled(false);
           }
         };
         return (
@@ -69,6 +189,7 @@ function EditorWindow({ poi, handlePoi, marker }) {
             >
               <Stack spacing={3}>
                 <TextField
+                  disabled={submitDisabled}
                   error={error.number}
                   required
                   fullWidth
@@ -85,6 +206,7 @@ function EditorWindow({ poi, handlePoi, marker }) {
                   }
                 />
                 <TextField
+                  disabled={submitDisabled}
                   error={error.category}
                   id="buildingCategory"
                   required
@@ -112,6 +234,7 @@ function EditorWindow({ poi, handlePoi, marker }) {
                   ))}
                 </TextField>
                 <TextField
+                  disabled={submitDisabled}
                   id="buildingName"
                   fullWidth
                   variant="standard"
@@ -126,6 +249,7 @@ function EditorWindow({ poi, handlePoi, marker }) {
                   }
                 />
                 <TextField
+                  disabled={submitDisabled}
                   id="buildingDescription"
                   label="Building Description"
                   fullWidth
@@ -140,34 +264,85 @@ function EditorWindow({ poi, handlePoi, marker }) {
                     }))
                   }
                 />
-
-                <Button
-                  id="pictureInput"
-                  variant="outlined"
-                  component="label"
-                  endIcon={<PhotoCamera />}
-                >
-                  Upload
-                  <input hidden accept="image/*" multiple type="file" />
-                </Button>
+                {image && (
+                  <>
+                    <Chip
+                      label={image[0].name}
+                      onDelete={stopImageUpload}
+                      disabled={submitDisabled}
+                    />
+                    <FormControl
+                      sx={{ m: 1, minWidth: 120 }}
+                      size="small"
+                      disabled={submitDisabled}
+                    >
+                      <InputLabel
+                        error={error.type}
+                        required
+                        id="demo-select-small-label"
+                        sx={{ backgroundColor: "white", paddingRight: "0.2em" }}
+                      >
+                        Image Type
+                      </InputLabel>
+                      <Select
+                        error={error.type}
+                        value={imageType}
+                        label="Image Type"
+                        onChange={(e) => setImageType(e.target.value)}
+                      >
+                        <MenuItem value="indoor">Indoor</MenuItem>
+                        <MenuItem value="streetView">Street View</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </>
+                )}{" "}
+                {!image && (
+                  <Button
+                    disabled={submitDisabled}
+                    id="pictureInput"
+                    variant="outlined"
+                    component="label"
+                    endIcon={<PhotoCamera />}
+                    onChange={(e) => setImage(e.target.files)}
+                  >
+                    Upload
+                    <input hidden accept="image/*" multiple type="file" />
+                  </Button>
+                )}
               </Stack>
-              <Button
+              <LoadingButton
                 onClick={() => {
                   middleMan();
                   handleError();
                 }}
-                variant="contained"
                 endIcon={<SendIcon />}
+                loading={submitDisabled}
+                loadingPosition="end"
+                variant="contained"
                 sx={{ width: "50%", mx: "auto", mt: 3 }}
               >
-                Submit
-              </Button>
+                <span>Submit</span>
+              </LoadingButton>
             </Box>
+            <Snackbar
+              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+              open={open}
+              autoHideDuration={6000}
+              sx={{ marginBottom: "1.4em", marginLeft: "3.5em" }}
+              onClose={closeSnack}
+            >
+              <Alert
+                onClose={closeSnack}
+                severity={severity}
+                sx={{ width: "100%" }}
+              >
+                {message}
+              </Alert>
+            </Snackbar>
           </>
         );
       }}
     </MapContext.Consumer>
   );
 }
-
 export default EditorWindow;
