@@ -28,7 +28,7 @@ export default function Drawer() {
     {
       iconMUI: <StreetviewIcon />,
       title: "Map View",
-      path: "/Map",
+      path: "/",
       key: 0,
     },
     {

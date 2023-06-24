@@ -38,7 +38,7 @@ function App() {
                     <Drawer />
                     <Account />
                     <Routes>
-                      <Route exact path="/Map" element={<StreetView />} />
+                      <Route path="/" element={<StreetView />} />
                       <Route exact path="/Dataset" element={<Dataset />} />
                       <Route
                         path="/EventController"
