@@ -1,7 +1,7 @@
 {
   "name": "cns-admin-website",
   "version": "0.1.0",
-  "homepage": "https://Yab1.github.io/CN-Admin",
+  "homepage": "http://Yab1.github.io/CN-Admin",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.6",
