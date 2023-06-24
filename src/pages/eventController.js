@@ -12,11 +12,11 @@ function EventController() {
   const [decodedBuildingData, setDecodedBuildingData] = useState([]);
   const [clickedMarkerId, setClickedMarkerId] = useState(null);
   const [event, setEvent] = useState({
+    geoHash: "",
     eventName: "",
+    eventCategory: "",
     startDate: "",
     endDate: "",
-    geoHash: "",
-    eventCategory: "",
     eventDescription: "",
   });
 
