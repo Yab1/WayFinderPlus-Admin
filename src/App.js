@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Drawer from "./components/Drawer/Drawer";
 import MobileSpeedDial from "./components/Drawer/MobileSpeedDial";
 import Account from "./components/Account/Account";
-import SearchIcon from "./components/Search/SearchBar";
 import LoginForm from "./components/Login/LoginForm";
 
 // pages
@@ -38,7 +37,6 @@ function App() {
                   <BrowserRouter>
                     <Drawer />
                     <Account />
-                    <SearchIcon />
                     <Routes>
                       <Route exact path="/Map" element={<StreetView />} />
                       <Route exact path="/Dataset" element={<Dataset />} />
