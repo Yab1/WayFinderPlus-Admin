@@ -1,4 +1,4 @@
-import { BuildingsContext } from "../contexts/BuildingsContext";
+import { MapContext } from "../contexts/MapContext";
 import Row from "../shared/row";
 
 // MUI Components
@@ -21,13 +21,13 @@ export default function Dataset() {
   }));
 
   return (
-    <BuildingsContext.Consumer>
-      {context => {
-        const { buildings, deleteData } = context;
+    <MapContext.Consumer>
+      {(context) => {
+        const { buildingsData, deleteData } = context;
         return (
           <StyledCard start={true}>
             <TableContainer component={Paper}>
-              <Table aria-label="buildings dataset table">
+              <Table aria-label="buildingsData dataset table">
                 <TableHead sx={{ bg: "primary.main" }}>
                   <TableRow>
                     <StyledTableCell align="left">
@@ -43,8 +43,8 @@ export default function Dataset() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {buildings &&
-                    buildings.map(building => (
+                  {buildingsData &&
+                    buildingsData.map((building) => (
                       <Row
                         key={building.id}
                         building={building}
@@ -57,6 +57,6 @@ export default function Dataset() {
           </StyledCard>
         );
       }}
-    </BuildingsContext.Consumer>
+    </MapContext.Consumer>
   );
 }
