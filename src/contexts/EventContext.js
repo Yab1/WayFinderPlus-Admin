@@ -20,8 +20,13 @@ export default function EventContextProvider({ children }) {
   useEffect(() => {
     const db = getFirestore();
     // Real Time data gathering
-    const colRef = collection(db, "EventCollection");
-    const queuedRef = query(colRef, orderBy("buildingNumber"));
+    const colRef = collection(
+      db,
+      "Locations",
+      "Adama Science And Technology",
+      "EventsData"
+    );
+    const queuedRef = query(colRef);
     onSnapshot(queuedRef, (snapshot) => {
       let data = [];
       snapshot.docs.forEach((doc) => {
@@ -34,10 +39,14 @@ export default function EventContextProvider({ children }) {
   async function getCollectionOnce() {
     let data = [];
     try {
-      const colRef = collection(db, "EventCollection");
+      const colRef = collection(
+        db,
+        "Locations",
+        "Adama Science And Technology",
+        "EventsData"
+      );
       const snapshot = await getDocs(colRef);
       snapshot.docs.forEach((doc) => data.push({ ...doc.data(), id: doc.id }));
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +61,12 @@ export default function EventContextProvider({ children }) {
     eventCategory,
     eventDescription,
   }) {
-    const colRef = collection(db, "EventCollection");
+    const colRef = collection(
+      db,
+      "Locations",
+      "Adama Science And Technology",
+      "EventsData"
+    );
     let date =
       new Date().getDate() +
       "-" +
@@ -61,7 +75,7 @@ export default function EventContextProvider({ children }) {
       new Date().getFullYear();
 
     let data = {
-      eventName: eventName === "" ? "unnamed" : eventName,
+      eventName: eventName === "" ? "Untitled Event" : eventName,
       startDate,
       endDate,
       geoHash,
@@ -70,14 +84,20 @@ export default function EventContextProvider({ children }) {
         eventDescription === "" ? "No Description Available" : eventDescription,
       created_at: date,
     };
-    // addDoc(colRef, data);
+    addDoc(colRef, data);
   }
-  async function deleteData(id) {
-    const docRef = doc(db, "EventCollection", id);
+  async function deleteEvents(id) {
+    const docRef = doc(
+      db,
+      "Locations",
+      "Adama Science And Technology",
+      "EventsData",
+      id
+    );
     deleteDoc(docRef);
   }
 
-  const value = { addData, deleteData, events };
+  const value = { addData, deleteEvents, events };
   return (
     <EventContext.Provider value={value}>{children}</EventContext.Provider>
   );
