@@ -38,7 +38,7 @@ function EventController() {
       "pk.eyJ1IjoiYWZyb2hhYmVzaGEiLCJhIjoiY2xnb3F0cDYzMGYzNjNlb2d2dXhtdzRqbSJ9.JW2kyDZjoOWoXVPG5Giw7g";
     const mapBox = new mapboxgl.Map({
       container: "mapBox",
-      style: "mapbox://styles/mapbox/streets-v10",
+      style: "mapbox://styles/mapbox/streets-v12",
       center: [39.29039343419677, 8.563261132878523],
       zoom: 16,
     });
