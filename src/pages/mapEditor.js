@@ -24,7 +24,7 @@ function MapEditor() {
       "pk.eyJ1IjoiYWZyb2hhYmVzaGEiLCJhIjoiY2xnb3F0cDYzMGYzNjNlb2d2dXhtdzRqbSJ9.JW2kyDZjoOWoXVPG5Giw7g";
     const map = new mapboxgl.Map({
       container: "map",
-      style: "mapbox://styles/mapbox/streets-v10",
+      style: "mapbox://styles/mapbox/satellite-v9",
       center: [39.29039343419677, 8.563261132878523],
       zoom: 16,
     });
