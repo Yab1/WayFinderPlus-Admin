@@ -1,5 +1,6 @@
 import { useState, forwardRef, useContext, useEffect } from "react";
 import { MapContext } from "../contexts/MapContext";
+import { AuthContext } from "../contexts/AuthContext";
 import { BucketContext } from "../contexts/BucketContext";
 import categories from "../utils/categories";
 
@@ -40,6 +41,8 @@ function EditorWindow({ poi, handlePoi, marker }) {
   const [image, setImage] = useState(null);
   const [imageType, setImageType] = useState("");
   const [submitDisabled, setSubmitDisabled] = useState(false);
+
+  const { currentUser } = useContext(AuthContext);
 
   const { uploadImage, downloadURL, uploadError, trigger } =
     useContext(BucketContext);
@@ -127,7 +130,7 @@ function EditorWindow({ poi, handlePoi, marker }) {
                 "Upload in progress. Check your internet connection if it takes longer than usual!",
             });
             if (poi.url) {
-              addData(poi);
+              addData(poi, currentUser.uid);
               if (marker) {
                 marker.remove();
               }

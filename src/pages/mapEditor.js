@@ -14,14 +14,14 @@ function MapEditor() {
     buildingName: "",
     buildingDescription: "",
   });
+
   const marker = useRef(null);
   const handlePoi = (value) => {
     setPoi(value);
   };
 
   useEffect(() => {
-    mapboxgl.accessToken =
-      "pk.eyJ1IjoiYWZyb2hhYmVzaGEiLCJhIjoiY2xnb3F0cDYzMGYzNjNlb2d2dXhtdzRqbSJ9.JW2kyDZjoOWoXVPG5Giw7g";
+    mapboxgl.accessToken = process.env.REACT_APP_MAP_BOX_ACCESS_TOKEN;
     const map = new mapboxgl.Map({
       container: "map",
       style: "mapbox://styles/mapbox/satellite-v9",

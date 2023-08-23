@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 import PropTypes from "prop-types";
 
 // MUI Components
@@ -12,6 +14,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 
 function Popup({ open, building, handleClose, deleteData, handleMarkerClick }) {
+  const { currentUser } = useContext(AuthContext);
   return (
     <Dialog open={open}>
       <DialogTitle>Confirmation</DialogTitle>
@@ -46,7 +49,7 @@ function Popup({ open, building, handleClose, deleteData, handleMarkerClick }) {
         <Button
           sx={{ mr: "auto", color: "error.light" }}
           onClick={() => {
-            deleteData(building.id);
+            deleteData(building.id, currentUser.uid);
             handleMarkerClick();
           }}
         >

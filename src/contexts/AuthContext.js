@@ -9,6 +9,7 @@ export default function AuthContextProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("currentUser"))
   );
+
   const [logged, setLogged] = useState(localStorage.getItem("logged"));
   const [errorMsg, setErrorMsg] = useState("");
 

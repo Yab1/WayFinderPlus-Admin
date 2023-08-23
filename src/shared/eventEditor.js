@@ -2,6 +2,7 @@ import { useState, useContext, useEffect, forwardRef } from "react";
 import { EventContext } from "../contexts/EventContext";
 import { MapContext } from "../contexts/MapContext";
 import eventCategories from "../utils/eventCategories";
+import { AuthContext } from "../contexts/AuthContext";
 
 // MUI Components
 import Box from "@mui/material/Box";
@@ -31,6 +32,7 @@ function EventEditor({ event, handleEvent, clickedMarkerId }) {
     severity: "",
     message: "",
   });
+  const { currentUser } = useContext(AuthContext);
   const errorMessage = {
     loc: "Please choose a location on the map.",
     cat: "Please select a category for the event.",
@@ -105,7 +107,7 @@ function EventEditor({ event, handleEvent, clickedMarkerId }) {
               severity: "success",
               message: errorMessage.success,
             });
-            addData(event);
+            addData(event, currentUser.uid);
             reset();
           } else {
             if (

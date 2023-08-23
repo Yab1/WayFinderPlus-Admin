@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import { app } from "../services/firebase/connection";
 import {
   getFirestore,
@@ -17,6 +17,9 @@ export const MapContext = createContext();
 export default function MapContextProvider({ children }) {
   const db = getFirestore(app);
   const [buildingsData, setBuildingsData] = useState([]);
+
+  // console.log(currentUser);
+
   useEffect(() => {
     // Real-time data gathering
     const colRef = collection(
@@ -36,14 +39,17 @@ export default function MapContextProvider({ children }) {
     return () => unsubscribe();
   }, []);
 
-  async function addData({
-    url,
-    geoHash,
-    buildingNumber,
-    buildingCategory,
-    buildingName,
-    buildingDescription,
-  }) {
+  async function addData(
+    {
+      url,
+      geoHash,
+      buildingNumber,
+      buildingCategory,
+      buildingName,
+      buildingDescription,
+    },
+    userID
+  ) {
     const colRef = collection(
       db,
       "Locations",
@@ -69,10 +75,14 @@ export default function MapContextProvider({ children }) {
       url,
       created_at: date,
     };
-    addDoc(colRef, data);
+    if (process.env.REACT_APP_FIREBASE_ADMIN_ID === userID) {
+      addDoc(colRef, data);
+    } else {
+      alert("not allowed");
+    }
   }
 
-  async function deleteData(id) {
+  async function deleteData(id, userID) {
     const docRef = doc(
       db,
       "Locations",
@@ -80,7 +90,11 @@ export default function MapContextProvider({ children }) {
       "BuildingsData",
       id
     );
-    deleteDoc(docRef);
+    if (process.env.REACT_APP_FIREBASE_ADMIN_ID === userID) {
+      deleteDoc(docRef);
+    } else {
+      alert("not allowed");
+    }
   }
 
   const value = { addData, deleteData, buildingsData };

@@ -53,14 +53,10 @@ export default function EventContextProvider({ children }) {
     // setEvents(buildings);
   }
 
-  async function addData({
-    eventName,
-    startDate,
-    endDate,
-    geoHash,
-    eventCategory,
-    eventDescription,
-  }) {
+  async function addData(
+    { eventName, startDate, endDate, geoHash, eventCategory, eventDescription },
+    userID
+  ) {
     const colRef = collection(
       db,
       "Locations",
@@ -84,9 +80,13 @@ export default function EventContextProvider({ children }) {
         eventDescription === "" ? "No Description Available" : eventDescription,
       created_at: date,
     };
-    addDoc(colRef, data);
+    if (process.env.REACT_APP_FIREBASE_ADMIN_ID === userID) {
+      addDoc(colRef, data);
+    } else {
+      alert("not allowed");
+    }
   }
-  async function deleteEvents(id) {
+  async function deleteEvents(id, userID) {
     const docRef = doc(
       db,
       "Locations",
@@ -94,7 +94,11 @@ export default function EventContextProvider({ children }) {
       "EventsData",
       id
     );
-    deleteDoc(docRef);
+    if (process.env.REACT_APP_FIREBASE_ADMIN_ID === userID) {
+      deleteDoc(docRef);
+    } else {
+      alert("not allowed");
+    }
   }
 
   const value = { addData, deleteEvents, events };

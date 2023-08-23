@@ -25,38 +25,42 @@ export default function BucketContextProvider({ children }) {
     }
   }, [downloadURL, resetURL]);
 
-  function uploadImage(imageUpload, buildingNumber, imageType) {
+  function uploadImage(imageUpload, buildingNumber, imageType, userID) {
     const path =
       imageType === "indoor"
         ? `adama-science-and-technology-indoors/`
         : `/adama-science-and-technology-street-view/`;
     const imagesRef = ref(storageRef, `${path}${buildingNumber}`);
     const uploadTask = uploadBytesResumable(imagesRef, imageUpload);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const snapshotProgress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(snapshotProgress);
-      },
-      (error) => {
-        switch (error.code) {
-          case "storage/unauthorized":
-            break;
-          case "storage/canceled":
-            break;
-          case "storage/unknown":
-            break;
+    if (process.env.REACT_APP_FIREBASE_ADMIN_ID === userID) {
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const snapshotProgress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setProgress(snapshotProgress);
+        },
+        (error) => {
+          switch (error.code) {
+            case "storage/unauthorized":
+              break;
+            case "storage/canceled":
+              break;
+            case "storage/unknown":
+              break;
+          }
+        },
+        () => {
+          if (uploadTask.snapshot.state === "success") {
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              setDownloadURL(url);
+            });
+          }
         }
-      },
-      () => {
-        if (uploadTask.snapshot.state === "success") {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            setDownloadURL(url);
-          });
-        }
-      }
-    );
+      );
+    } else {
+      alert("not allowed");
+    }
   }
 
   const trigger = () => {
