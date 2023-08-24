@@ -10,6 +10,7 @@ import SpeedDialAction from "@mui/material/SpeedDialAction";
 import EventIcon from "@mui/icons-material/Event";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import PostAddIcon from "@mui/icons-material/PostAdd";
+import StreetviewIcon from "@mui/icons-material/Streetview";
 import DatasetLinkedOutlinedIcon from "@mui/icons-material/DatasetLinkedOutlined";
 
 export default function MobileSpeedDial() {
@@ -17,9 +18,15 @@ export default function MobileSpeedDial() {
 
   const actions = [
     {
-      iconMUI: <EventIcon />,
-      title: "Event Controller",
-      path: "/EventController",
+      iconMUI: <StreetviewIcon />,
+      title: "Map View",
+      path: "/",
+      key: 0,
+    },
+    {
+      iconMUI: <DatasetLinkedOutlinedIcon />,
+      title: "Dataset",
+      path: "/Dataset",
       key: 1,
     },
     {
@@ -29,16 +36,10 @@ export default function MobileSpeedDial() {
       key: 2,
     },
     {
-      iconMUI: <PostAddIcon />,
-      title: "Edit Dataset",
-      path: "/POIEditor",
+      iconMUI: <EventIcon />,
+      title: "Event Controller",
+      path: "/EventController",
       key: 3,
-    },
-    {
-      iconMUI: <DatasetLinkedOutlinedIcon />,
-      name: "Dataset",
-      path: "/",
-      key: 4,
     },
   ];
 
@@ -58,12 +59,12 @@ export default function MobileSpeedDial() {
         sx={{ "& .MuiFab-primary": { width: 50, height: 50 } }}
         icon={<SpeedDialIcon />}
       >
-        {actions.map(action => (
+        {actions.map((action) => (
           <SpeedDialAction
             key={action.key}
             icon={action.iconMUI}
-            tooltipTitle={action.name}
-            onClick={e => {
+            tooltipTitle={action.title}
+            onClick={(e) => {
               navigate(action.path);
             }}
           />
