@@ -24,6 +24,7 @@ const drawerHeight = "85%";
 
 export default function Drawer() {
   const [open, setOpen] = useState(true);
+  const [activeTab, setActiveTab] = useState(0);
   const icons = [
     {
       iconMUI: <StreetviewIcon />,
@@ -56,10 +57,13 @@ export default function Drawer() {
     setOpen(!open);
   };
 
+  const handleTabs = (tab) => {
+    setActiveTab(tab);
+  };
+
   return open ? (
     <Box
       sx={{
-        positon: "absolute",
         height: "100dvh",
         display: { xs: "none", sm: "none", md: "fixed", xl: "fixed" },
         alignItems: "center",
@@ -87,7 +91,12 @@ export default function Drawer() {
 
         {/* Tools */}
         {icons.map((icon) => (
-          <Tool icon={icon} key={icon.key} />
+          <Tool
+            icon={icon}
+            key={icon.key}
+            activeTab={activeTab}
+            handleTabs={handleTabs}
+          />
         ))}
 
         {/* Close Drawer */}

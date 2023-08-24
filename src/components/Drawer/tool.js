@@ -10,9 +10,8 @@ import { grey } from "@mui/material/colors";
 
 const drawerWidth = 65;
 
-function Tool({ icon }) {
+function Tool({ icon, activeTab, handleTabs }) {
   const navigate = useNavigate();
-
   return (
     <Tooltip title={icon.title} placement="right" disableInteractive>
       <IconButton
@@ -21,6 +20,7 @@ function Tool({ icon }) {
         id={icon.key}
         onClick={() => {
           navigate(icon.path);
+          handleTabs(icon.key);
         }}
         sx={{
           justifyContent: "flex-start",
@@ -33,6 +33,9 @@ function Tool({ icon }) {
           "&:hover": {
             color: grey[900],
           },
+          ...(activeTab === icon.key
+            ? { bgcolor: "#ffffff", color: grey[900] }
+            : ""),
           "&:focus": {
             bgcolor: "#ffffff",
             color: grey[900],
