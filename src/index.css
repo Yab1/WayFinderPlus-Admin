@@ -13,13 +13,26 @@ code {
     monospace;
 }
 .visuals {
-  background: rgba(9, 48, 52, 1);
-  background: linear-gradient(
-    135deg,
-    rgba(9, 48, 52, 1),
-    rgba(193, 49, 132, 1)
-  );
+  position: relative;
+  background-image: url("assets/worldmap.jpg");
+  background-size: cover;
+  background-position: center;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(9, 48, 52, 0.5),
+      rgba(193, 49, 132, 0.5)
+    );
+  }
 }
+
 .buildingNumberElement {
   position: relative;
   top: 13px;
