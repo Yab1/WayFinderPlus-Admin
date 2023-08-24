@@ -25,7 +25,7 @@ WayFinderPlus Admin is a powerful web-based tool designed to simplify the manage
 
 ## Usage
 
-1. Access [WayFinderPlus Admin]() for comprehensive location management.
+1. Access [WayFinderPlus Admin](way-finder-plus-admin-5cxlz4l1h-yeabsera.vercel.app) for comprehensive location management.
 2. Add new locations and categorize them appropriately.
 3. Configure indoor navigation settings for enhanced user experience with [WayFinderPlus VR]().
 4. Customize VR navigation preferences to match your needs and explore the outdoor navigation capabilities of [WayFinderPlus](https://way-finder-plus.vercel.app/).
@@ -52,7 +52,7 @@ Contributions are welcome! If you'd like to improve WayFinderPlus Admin or sugge
 
 ---
 
-Visit WayFinderPlus Admin Website [Live Demo]()
+Visit WayFinderPlus Admin Website [Live Demo](way-finder-plus-admin-5cxlz4l1h-yeabsera.vercel.app)
 
 Connect with me:  
 Visit my website at [Yeabsera](https://yeabsera-girxkocyp-yab1.vercel.app) | Follow me on [LinkedIn](https://www.linkedin.com/in/yeabsera-lisanework-7570981ba/) | Check out my [GitHub](https://github.com/Yab1)
