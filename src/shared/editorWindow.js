@@ -126,7 +126,7 @@ function EditorWindow({ poi, handlePoi, marker }) {
     <MapContext.Consumer>
       {(context) => {
         const { addData } = context;
-        const middleMan = () => {
+        middleMan = () => {
           if (logged) {
             if (
               poi.geoHash &&
