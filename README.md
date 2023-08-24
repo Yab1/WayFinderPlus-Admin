@@ -33,22 +33,17 @@ WayFinderPlus Admin is a powerful web-based tool designed to simplify the manage
 ## Screenshots
 
 <table>
-  <td>
-    <td><img src="https://github.com/Yab1/WayFinderPlus-Admin/blob/main/src/assets/screenshots/screenshot%20Loginpage.png" alt="LOGIN PAGE" width="100%"/></td>
+  <tr>
+    <img src="https://github.com/Yab1/WayFinderPlus-Admin/blob/main/src/assets/screenshots/screenshot%20Loginpage.png" alt="LOGIN PAGE" width="100%"/>
   </tr>
-  <table>
   <tr>
     <td><img src="https://github.com/Yab1/WayFinderPlus-Admin/blob/main/src/assets/screenshots/screenshot%20mapView.png" alt="MAP VIEW" width="400"/></td>
     <td><img src="https://github.com/Yab1/WayFinderPlus-Admin/blob/main/src/assets/screenshots/screenshot%20Dataset.png" alt="DATASET" width="400"/></td>
-
   </tr>
-</table>
-<table>
   <tr>
     <td><img src="https://github.com/Yab1/WayFinderPlus-Admin/blob/main/src/assets/screenshots/screenshot%20MapEditor.png" alt="MAP EDITOR" width="400"/></td>
     <td><img src="https://github.com/Yab1/WayFinderPlus-Admin/blob/main/src/assets/screenshots/screenshot%20EventEditor.png" alt="EVENT EDITOR" width="400"/></td>
   </tr>
-</table>
 </table>
 
 ## Contributing
