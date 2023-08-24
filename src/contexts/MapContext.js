@@ -39,17 +39,14 @@ export default function MapContextProvider({ children }) {
     return () => unsubscribe();
   }, []);
 
-  async function addData(
-    {
-      url,
-      geoHash,
-      buildingNumber,
-      buildingCategory,
-      buildingName,
-      buildingDescription,
-    },
-    userID
-  ) {
+  async function addData({
+    url,
+    geoHash,
+    buildingNumber,
+    buildingCategory,
+    buildingName,
+    buildingDescription,
+  }) {
     const colRef = collection(
       db,
       "Locations",
@@ -75,14 +72,10 @@ export default function MapContextProvider({ children }) {
       url,
       created_at: date,
     };
-    if (process.env.REACT_APP_FIREBASE_ADMIN_ID === userID) {
-      addDoc(colRef, data);
-    } else {
-      alert("not allowed");
-    }
+    addDoc(colRef, data);
   }
 
-  async function deleteData(id, userID) {
+  async function deleteData(id) {
     const docRef = doc(
       db,
       "Locations",
@@ -90,11 +83,7 @@ export default function MapContextProvider({ children }) {
       "BuildingsData",
       id
     );
-    if (process.env.REACT_APP_FIREBASE_ADMIN_ID === userID) {
-      deleteDoc(docRef);
-    } else {
-      alert("not allowed");
-    }
+    deleteDoc(docRef);
   }
 
   const value = { addData, deleteData, buildingsData };

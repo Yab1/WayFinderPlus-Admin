@@ -5,6 +5,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -14,16 +15,18 @@ import Stack from "@mui/material/Stack";
 import FormControl from "@mui/material/FormControl";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContentText from "@mui/material/DialogContentText";
 
 //MUI Icons
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const [emailError, setEmailError] = useState(false);
   const [passError, setPassError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
 
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -31,7 +34,7 @@ function LoginForm() {
 
   return (
     <AuthContext.Consumer>
-      {context => {
+      {(context) => {
         const { currentUser, userInput, errorMsg, handleChange, login } =
           context;
         const handleError = () => {
@@ -50,9 +53,7 @@ function LoginForm() {
             className="visuals"
             sx={{ position: "absolute", zIndex: "tooltip" }}
           >
-            <DialogTitle sx={{ mx: "auto", pb: 0 }}>
-              CNS Admin Login
-            </DialogTitle>
+            <DialogTitle sx={{ mx: "auto", pb: 0 }}>Admin Login</DialogTitle>
             <DialogContent
               sx={{
                 width: { md: 400 },
@@ -96,7 +97,7 @@ function LoginForm() {
                       error={passError}
                       id="password"
                       value={userInput.password}
-                      onChange={e => handleChange(e)}
+                      onChange={(e) => handleChange(e)}
                       type={showPassword ? "text" : "password"}
                       endAdornment={
                         <InputAdornment position="end">
@@ -116,16 +117,27 @@ function LoginForm() {
                       label="Password"
                     />
                   </FormControl>
-                  <Button
-                    variant="contained"
-                    sx={{ width: 50 }}
-                    onClick={() => {
-                      handleError();
-                      login();
-                    }}
+                  <Stack
+                    direction="row"
+                    alignItems="flex-end"
+                    justifyContent="space-between"
                   >
-                    Login
-                  </Button>
+                    <Button
+                      variant="contained"
+                      sx={{ width: 50 }}
+                      onClick={() => {
+                        handleError();
+                        login();
+                      }}
+                    >
+                      Login
+                    </Button>
+                    <Button onClick={() => navigate(-1)}>
+                      <DialogContentText id="alert-dialog-description">
+                        Not an Admin?
+                      </DialogContentText>
+                    </Button>
+                  </Stack>
                 </Stack>
               </DialogActions>
             </DialogContent>

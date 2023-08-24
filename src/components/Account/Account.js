@@ -27,7 +27,7 @@ function AccountMenu() {
   return (
     <AuthContext.Consumer>
       {(context) => {
-        const { logout } = context;
+        const { logged, logout } = context;
         return (
           <React.Fragment>
             <IconButton
@@ -69,19 +69,34 @@ function AccountMenu() {
                 },
               }}
             >
-              <MenuItem
-                sx={{ p: 0 }}
-                onClick={() => {
-                  navigate("/");
-                  logout();
-                }}
-              >
-                Logout
-                <ListItemIcon>
-                  <IconButton></IconButton>
-                  <Logout fontSize="small" />
-                </ListItemIcon>
-              </MenuItem>
+              {logged ? (
+                <MenuItem
+                  sx={{ p: 0 }}
+                  onClick={() => {
+                    navigate("/");
+                    logout();
+                  }}
+                >
+                  Logout
+                  <ListItemIcon>
+                    <IconButton></IconButton>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                </MenuItem>
+              ) : (
+                <MenuItem
+                  sx={{ p: 0 }}
+                  onClick={() => {
+                    navigate("/LoginForm");
+                  }}
+                >
+                  Login
+                  <ListItemIcon>
+                    <IconButton></IconButton>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                </MenuItem>
+              )}
             </Menu>
           </React.Fragment>
         );

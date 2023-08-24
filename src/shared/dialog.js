@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState, forwardRef, useEffect } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import PropTypes from "prop-types";
 
@@ -12,9 +12,26 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 function Popup({ open, building, handleClose, deleteData, handleMarkerClick }) {
-  const { currentUser } = useContext(AuthContext);
+  const { logged } = useContext(AuthContext);
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [error, setError] = useState({
+    location: false,
+    number: false,
+    category: false,
+    type: false,
+  });
+  const [snack, setSnack] = useState({
+    open: false,
+    severity: "",
+    message: "",
+  });
+  const Alert = forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
   return (
     <Dialog open={open}>
       <DialogTitle>Confirmation</DialogTitle>
@@ -49,14 +66,33 @@ function Popup({ open, building, handleClose, deleteData, handleMarkerClick }) {
         <Button
           sx={{ mr: "auto", color: "error.light" }}
           onClick={() => {
-            deleteData(building.id, currentUser.uid);
-            handleMarkerClick();
+            if (logged) {
+              deleteData(building.id, logged);
+              handleMarkerClick();
+            } else {
+              setSnackOpen(!snackOpen);
+            }
           }}
         >
           Delete
         </Button>
         <Button onClick={handleClose}>Close</Button>
       </DialogActions>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        open={snackOpen}
+        autoHideDuration={6000}
+        sx={{ marginBottom: "1.4em", marginLeft: "3.5em" }}
+        onClose={() => setSnackOpen(!snackOpen)}
+      >
+        <Alert
+          onClose={() => setSnackOpen(!snackOpen)}
+          severity="info"
+          sx={{ width: "100%" }}
+        >
+          Sorry, only admins are allowed to delete data.
+        </Alert>
+      </Snackbar>
     </Dialog>
   );
 }

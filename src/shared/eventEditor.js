@@ -32,7 +32,7 @@ function EventEditor({ event, handleEvent, clickedMarkerId }) {
     severity: "",
     message: "",
   });
-  const { currentUser } = useContext(AuthContext);
+  const { logged } = useContext(AuthContext);
   const errorMessage = {
     loc: "Please choose a location on the map.",
     cat: "Please select a category for the event.",
@@ -42,6 +42,7 @@ function EventEditor({ event, handleEvent, clickedMarkerId }) {
     catDate: "Please select a category and choose a valid date for the event.",
     all: "Incomplete information. Please fill in all required fields.",
     success: "Event saved successfully!",
+    notAdmin: "Sorry, only admins are allowed to add data.",
   };
 
   // Context
@@ -96,94 +97,101 @@ function EventEditor({ event, handleEvent, clickedMarkerId }) {
       {(context) => {
         const { addData } = context;
         const middleMan = () => {
-          if (
-            event.geoHash &&
-            event.eventCategory &&
-            event.startDate &&
-            event.endDate
-          ) {
-            // All conditions are true
-            handleClick({
-              severity: "success",
-              message: errorMessage.success,
-            });
-            addData(event, currentUser.uid);
-            reset();
-          } else {
+          if (logged) {
             if (
-              !event.geoHash &&
-              !event.eventCategory &&
-              !event.startDate &&
-              !event.endDate
-            ) {
-              // All conditions are false
-              handleClick({
-                severity: "error",
-                message: errorMessage.all,
-              });
-            } else if (
-              !event.geoHash &&
+              event.geoHash &&
               event.eventCategory &&
               event.startDate &&
               event.endDate
             ) {
-              // Only location is false
+              // All conditions are true
               handleClick({
-                severity: "error",
-                message: errorMessage.loc,
+                severity: "success",
+                message: errorMessage.success,
               });
-            } else if (
-              event.geoHash &&
-              !event.eventCategory &&
-              event.startDate &&
-              event.endDate
-            ) {
-              // Only category is false
-              handleClick({
-                severity: "error",
-                message: errorMessage.cat,
-              });
-            } else if (
-              event.geoHash &&
-              event.eventCategory &&
-              (!event.startDate || !event.endDate)
-            ) {
-              // Only date is false
-              handleClick({
-                severity: "error",
-                message: errorMessage.date,
-              });
-            } else if (
-              !event.geoHash &&
-              event.eventCategory &&
-              (!event.startDate || !event.endDate)
-            ) {
-              // Only location and date are false
-              handleClick({
-                severity: "error",
-                message: errorMessage.locDate,
-              });
-            } else if (
-              event.geoHash &&
-              !event.eventCategory &&
-              (!event.startDate || !event.endDate)
-            ) {
-              // Only category and date are false
-              handleClick({
-                severity: "error",
-                message: errorMessage.catDate,
-              });
-            } else if (
-              !event.geoHash &&
-              !event.eventCategory &&
-              (event.startDate || event.endDate)
-            ) {
-              // Only location and category are false
-              handleClick({
-                severity: "error",
-                message: errorMessage.locCat,
-              });
+              addData(event, logged);
+              reset();
+            } else {
+              if (
+                !event.geoHash &&
+                !event.eventCategory &&
+                !event.startDate &&
+                !event.endDate
+              ) {
+                // All conditions are false
+                handleClick({
+                  severity: "error",
+                  message: errorMessage.all,
+                });
+              } else if (
+                !event.geoHash &&
+                event.eventCategory &&
+                event.startDate &&
+                event.endDate
+              ) {
+                // Only location is false
+                handleClick({
+                  severity: "error",
+                  message: errorMessage.loc,
+                });
+              } else if (
+                event.geoHash &&
+                !event.eventCategory &&
+                event.startDate &&
+                event.endDate
+              ) {
+                // Only category is false
+                handleClick({
+                  severity: "error",
+                  message: errorMessage.cat,
+                });
+              } else if (
+                event.geoHash &&
+                event.eventCategory &&
+                (!event.startDate || !event.endDate)
+              ) {
+                // Only date is false
+                handleClick({
+                  severity: "error",
+                  message: errorMessage.date,
+                });
+              } else if (
+                !event.geoHash &&
+                event.eventCategory &&
+                (!event.startDate || !event.endDate)
+              ) {
+                // Only location and date are false
+                handleClick({
+                  severity: "error",
+                  message: errorMessage.locDate,
+                });
+              } else if (
+                event.geoHash &&
+                !event.eventCategory &&
+                (!event.startDate || !event.endDate)
+              ) {
+                // Only category and date are false
+                handleClick({
+                  severity: "error",
+                  message: errorMessage.catDate,
+                });
+              } else if (
+                !event.geoHash &&
+                !event.eventCategory &&
+                (event.startDate || event.endDate)
+              ) {
+                // Only location and category are false
+                handleClick({
+                  severity: "error",
+                  message: errorMessage.locCat,
+                });
+              }
             }
+          } else {
+            handleClick({
+              severity: "info",
+              message: errorMessage.notAdmin,
+            });
           }
         };
         return (

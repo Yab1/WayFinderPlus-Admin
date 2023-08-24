@@ -42,7 +42,7 @@ function EditorWindow({ poi, handlePoi, marker }) {
   const [imageType, setImageType] = useState("");
   const [submitDisabled, setSubmitDisabled] = useState(false);
 
-  const { currentUser } = useContext(AuthContext);
+  const { logged } = useContext(AuthContext);
 
   const { uploadImage, downloadURL, uploadError, trigger } =
     useContext(BucketContext);
@@ -61,26 +61,38 @@ function EditorWindow({ poi, handlePoi, marker }) {
   }, [downloadURL]);
 
   const handleError = () => {
-    setError({ location: false, number: false, category: false, type: false });
-    poi.buildingNumber === "" &&
-      setError((prevError) => ({ ...prevError, number: !prevError.number }));
-    poi.geoHash === "" &&
-      openSnack({
-        severity: "error",
-        message: "Please select a location on the map!",
+    if (logged) {
+      setError({
+        location: false,
+        number: false,
+        category: false,
+        type: false,
       });
-    poi.buildingCategory === "" &&
-      setError((prevError) => ({
-        ...prevError,
-        category: !prevError.category,
-      }));
-    if (image) {
-      image[0] &&
-        !imageType &&
+      poi.buildingNumber === "" &&
+        setError((prevError) => ({ ...prevError, number: !prevError.number }));
+      poi.geoHash === "" &&
+        openSnack({
+          severity: "error",
+          message: "Please select a location on the map!",
+        });
+      poi.buildingCategory === "" &&
         setError((prevError) => ({
           ...prevError,
-          type: !prevError.type,
+          category: !prevError.category,
         }));
+      if (image) {
+        image[0] &&
+          !imageType &&
+          setError((prevError) => ({
+            ...prevError,
+            type: !prevError.type,
+          }));
+      }
+    } else {
+      openSnack({
+        severity: "info",
+        message: "Sorry, only admins are allowed to add data.",
+      });
     }
   };
   const stopImageUpload = () => {
@@ -114,58 +126,65 @@ function EditorWindow({ poi, handlePoi, marker }) {
     <MapContext.Consumer>
       {(context) => {
         const { addData } = context;
-        middleMan = () => {
-          if (
-            poi.geoHash &&
-            poi.buildingNumber &&
-            poi.buildingCategory &&
-            image &&
-            imageType
-          ) {
-            uploadImage(image[0], poi.buildingNumber, imageType);
-            setSubmitDisabled(true);
-            openSnack({
-              severity: "warning",
-              message:
-                "Upload in progress. Check your internet connection if it takes longer than usual!",
-            });
-            if (poi.url) {
-              addData(poi, currentUser.uid);
-              if (marker) {
-                marker.remove();
+        const middleMan = () => {
+          if (logged) {
+            if (
+              poi.geoHash &&
+              poi.buildingNumber &&
+              poi.buildingCategory &&
+              image &&
+              imageType
+            ) {
+              uploadImage(image[0], poi.buildingNumber, imageType);
+              setSubmitDisabled(true);
+              openSnack({
+                severity: "warning",
+                message:
+                  "Upload in progress. Check your internet connection if it takes longer than usual!",
+              });
+              if (poi.url) {
+                addData(poi, logged);
+                if (marker) {
+                  marker.remove();
+                }
+                reset();
+                openSnack({
+                  severity: "success",
+                  message: "Data saved successfully!",
+                });
+                setSubmitDisabled(false);
+              } else {
+                if (uploadError) {
+                  openSnack({
+                    severity: "error",
+                    message: uploadError,
+                  });
+                }
               }
-              reset();
+            } else if (
+              poi.geoHash &&
+              poi.buildingNumber &&
+              poi.buildingCategory &&
+              !image &&
+              !imageType
+            ) {
+              setSubmitDisabled(true);
+              addData(poi);
               openSnack({
                 severity: "success",
                 message: "Data saved successfully!",
               });
-              setSubmitDisabled(false);
-            } else {
-              if (uploadError) {
-                openSnack({
-                  severity: "error",
-                  message: uploadError,
-                });
+              reset();
+              if (marker) {
+                marker.remove();
               }
+              setSubmitDisabled(false);
             }
-          } else if (
-            poi.geoHash &&
-            poi.buildingNumber &&
-            poi.buildingCategory &&
-            !image &&
-            !imageType
-          ) {
-            setSubmitDisabled(true);
-            addData(poi);
+          } else {
             openSnack({
-              severity: "success",
-              message: "Data saved successfully!",
+              severity: "info",
+              message: "Sorry, only admins are allowed to add data.",
             });
-            reset();
-            if (marker) {
-              marker.remove();
-            }
-            setSubmitDisabled(false);
           }
         };
         return (

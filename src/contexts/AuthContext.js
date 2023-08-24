@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { app } from "../services/firebase/connection";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
@@ -12,6 +13,8 @@ export default function AuthContextProvider({ children }) {
 
   const [logged, setLogged] = useState(localStorage.getItem("logged"));
   const [errorMsg, setErrorMsg] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     logged && localStorage.setItem("logged", logged);
@@ -41,10 +44,11 @@ export default function AuthContextProvider({ children }) {
       .then((cred) => {
         setCurrentUser(cred.user);
         setLogged(!logged);
+        navigate(-1);
       })
       .catch((err) => {
         setErrorMsg(err.code.split("/")[1]);
-        console.log(errorMsg);
+        alert(errorMsg);
       });
   }
   function logout() {
