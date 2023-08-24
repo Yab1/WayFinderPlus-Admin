@@ -1,5 +1,5 @@
 // Components
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Drawer from "./components/Drawer/Drawer";
 import MobileSpeedDial from "./components/Drawer/MobileSpeedDial";
 import Account from "./components/Account/Account";
@@ -25,36 +25,33 @@ function App() {
         flexDirection: { xs: "column", sm: "column", md: "row", lg: "row" },
       }}
     >
-      <AuthContext.Consumer>
+      <Drawer />
+      <Account />
+      <Routes>
+        <Route exact path="/" element={<StreetView />} />
+        {/* <Route exact path="/wayfinder" element={<StreetView />} /> */}
+        <Route exact path="/Dataset" element={<Dataset />} />
+        <Route path="/EventController" element={<EventController />} />
+        <Route path="/MapEditor" element={<MapEditor />} />
+        <Route path="/LoginForm" element={<LoginForm />} />
+      </Routes>
+      <MobileSpeedDial />
+
+      {/* <AuthContext.Consumer>
         {(context) => {
           const { logged } = context;
           return (
-            <>
-              {!logged ? (
-                <LoginForm />
-              ) : (
-                <>
-                  <BrowserRouter>
-                    <Drawer />
-                    <Account />
-                    <Routes>
-                      <Route exact path="/" element={<StreetView />} />
-                      <Route exact path="/CN-Admin" element={<StreetView />} />
-                      <Route exact path="/Dataset" element={<Dataset />} />
-                      <Route
-                        path="/EventController"
-                        element={<EventController />}
-                      />
-                      <Route path="/MapEditor" element={<MapEditor />} />
-                    </Routes>
-                    <MobileSpeedDial />
-                  </BrowserRouter>
-                </>
-              )}
-            </>
+            // <>
+            //   {!logged ? (
+            //     <LoginForm />
+            //   ) : (
+            //     <>
+            //     </>
+            //   )}
+            // </>
           );
         }}
-      </AuthContext.Consumer>
+      </AuthContext.Consumer> */}
     </div>
   );
 }
