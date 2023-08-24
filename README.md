@@ -33,8 +33,8 @@ WayFinderPlus Admin is a powerful web-based tool designed to simplify the manage
 ## Screenshots
 
 <table>
-  <tr>
-    <td><img src="https://github.com/Yab1/WayFinderPlus-Admin/blob/main/src/assets/screenshots/screenshot%20Loginpage.png" alt="LOGIN PAGE" width="400"/></td>
+  <td>
+    <td><img src="https://github.com/Yab1/WayFinderPlus-Admin/blob/main/src/assets/screenshots/screenshot%20Loginpage.png" alt="LOGIN PAGE" width="100%"/></td>
   </tr>
   <table>
   <tr>
@@ -50,8 +50,6 @@ WayFinderPlus Admin is a powerful web-based tool designed to simplify the manage
   </tr>
 </table>
 </table>
-
-![WayFinderPlus Admin Screenshot]()
 
 ## Contributing
 
