@@ -52,7 +52,7 @@ Contributions are welcome! If you'd like to improve WayFinderPlus Admin or sugge
 
 ---
 
-Visit WayFinderPlus [Live Demo]()
+Visit WayFinderPlus Admin Website [Live Demo]()
 
 Connect with me:  
 Visit my website at [Yeabsera](https://yeabsera-girxkocyp-yab1.vercel.app) | Follow me on [LinkedIn](https://www.linkedin.com/in/yeabsera-lisanework-7570981ba/) | Check out my [GitHub](https://github.com/Yab1) repositories
