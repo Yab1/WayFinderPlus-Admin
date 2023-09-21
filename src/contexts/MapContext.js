@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { app } from "../services/firebase/connection";
 import {
   getFirestore,
@@ -18,8 +18,6 @@ export default function MapContextProvider({ children }) {
   const db = getFirestore(app);
   const [buildingsData, setBuildingsData] = useState([]);
 
-  // console.log(currentUser);
-
   useEffect(() => {
     // Real-time data gathering
     const colRef = collection(
@@ -34,6 +32,7 @@ export default function MapContextProvider({ children }) {
       snapshot.docs.forEach((doc) => {
         data.push({ ...doc.data(), id: doc.id });
       });
+
       setBuildingsData(data);
     });
     return () => unsubscribe();
@@ -60,11 +59,19 @@ export default function MapContextProvider({ children }) {
       "-" +
       new Date().getFullYear();
 
+    if (buildingCategory === "Area" || buildingCategory === "Parking Area") {
+      buildingNumber = "";
+    }
     let data = {
       geoHash,
       buildingNumber,
       buildingCategory,
-      buildingName: buildingName === "" ? `B${buildingNumber}` : buildingName,
+      buildingName:
+        buildingName === ""
+          ? buildingNumber
+            ? `B${buildingNumber}`
+            : buildingCategory
+          : buildingName,
       buildingDescription:
         buildingDescription === ""
           ? "No Description Available"
