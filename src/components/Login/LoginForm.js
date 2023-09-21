@@ -65,7 +65,7 @@ function LoginForm() {
                   color="error"
                   sx={{
                     position: "relative",
-                    top: 18,
+                    top: 10,
                     right: "5%",
                     textAlign: "end",
                   }}
