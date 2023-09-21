@@ -36,7 +36,7 @@ export default function ShowCard({
 
   let markerArr = [];
   let filteredEvent = [];
-  if (buildingsData !== []) {
+  if (buildingsData.length > 0) {
     markerArr = buildingsData.filter(
       (building) => building.id === clickedMarkerId
     );
@@ -68,112 +68,114 @@ export default function ShowCard({
     };
   }
 
-  if (building.buildingNumber) {
-    return (
-      <Card
-        sx={{
-          maxWidth: 345,
-          position: "absolute",
-          zIndex: "10",
-          right: "3%",
-          width: {
-            xs: "60%",
-            sm: "60%",
-            md: "40%",
-            lg: "20%",
-            xl: "20%",
-          },
-        }}
-      >
-        <CardHeader
-          avatar={
-            <Avatar sx={{ bgcolor: green[500] }} aria-label="recipe">
-              {building.buildingNumber}
-            </Avatar>
-          }
-          action={
-            <IconButton aria-label="close" onClick={closeCard}>
-              <CloseIcon />
-            </IconButton>
-          }
-          title={building.buildingName}
-          subheader={building.buildingCategory}
-        />
-        <CardMedia
-          component="img"
-          height="194"
-          image={building.url ? building.url : Thumbnail}
-          alt="Thumbnail"
-        />
-        <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            {building.buildingDescription}
-          </Typography>
-        </CardContent>
-        <CardActions disableSpacing sx={{ justifyContent: "space-between" }}>
-          {filteredEvent[0] && (
-            <IconButton
-              aria-label="event available"
-              onClick={() => setExpanded(!expanded)}
-            >
-              <EventIcon color="success" />
-            </IconButton>
-          )}
-          {!filteredEvent[0] && (
-            <Tooltip title="No event available" placement="bottom-start">
-              <span>
-                <IconButton aria-label="event not available" disabled>
-                  <CalendarTodayIcon color="disabled" />
-                </IconButton>
-              </span>
-            </Tooltip>
-          )}
-          <IconButton aria-label="delete" onClick={handleClose}>
-            <DeleteIcon color="error" />
+  return (
+    <Card
+      sx={{
+        maxWidth: 345,
+        position: "absolute",
+        zIndex: "10",
+        right: "3%",
+        width: {
+          xs: "60%",
+          sm: "60%",
+          md: "40%",
+          lg: "20%",
+          xl: "20%",
+        },
+      }}
+    >
+      <CardHeader
+        avatar={
+          <Avatar sx={{ bgcolor: green[500] }} aria-label="recipe">
+            {building.buildingNumber
+              ? building.buildingNumber
+              : building.buildingCategory[0]}
+          </Avatar>
+        }
+        action={
+          <IconButton aria-label="close" onClick={closeCard}>
+            <CloseIcon />
           </IconButton>
-        </CardActions>
+        }
+        title={building.buildingName}
+        subheader={building.buildingCategory}
+      />
+      <CardMedia
+        component="img"
+        height="194"
+        image={building.url ? building.url : Thumbnail}
+        alt="Thumbnail"
+      />
+      <CardContent>
+        <Typography variant="body2" color="text.secondary">
+          {building.buildingDescription}
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing sx={{ justifyContent: "space-between" }}>
         {filteredEvent[0] && (
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                {filteredEvent[0].eventName}
-              </Typography>
-            </CardContent>
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                {`${filteredEvent[0].startDate} - ${filteredEvent[0].endDate}`}
-              </Typography>
-            </CardContent>
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                {filteredEvent[0].eventCategory}
-              </Typography>
-            </CardContent>
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                {filteredEvent[0].eventDescription}
-              </Typography>
-            </CardContent>
-            <CardActions
-              sx={{ width: "100%", ml: "25%" }}
-              onClick={() =>
-                filteredEvent[0] && deleteEvents(filteredEvent[0].id)
-              }
-            >
-              <Button variant="contained" color="error">
-                Delete Event
-              </Button>
-            </CardActions>
-          </Collapse>
+          <IconButton
+            aria-label="event available"
+            onClick={() => setExpanded(!expanded)}
+          >
+            <EventIcon color="success" />
+          </IconButton>
         )}
-        <Popup
-          open={open}
-          building={building}
-          handleClose={handleClose}
-          deleteData={deleteData}
-          handleMarkerClick={handleMarkerClick}
-        ></Popup>
-      </Card>
-    );
+        {!filteredEvent[0] && (
+          <Tooltip title="No event available" placement="bottom-start">
+            <span>
+              <IconButton aria-label="event not available" disabled>
+                <CalendarTodayIcon color="disabled" />
+              </IconButton>
+            </span>
+          </Tooltip>
+        )}
+        <IconButton aria-label="delete" onClick={handleClose}>
+          <DeleteIcon color="error" />
+        </IconButton>
+      </CardActions>
+      {filteredEvent[0] && (
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              {filteredEvent[0].eventName}
+            </Typography>
+          </CardContent>
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              {`${filteredEvent[0].startDate} - ${filteredEvent[0].endDate}`}
+            </Typography>
+          </CardContent>
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              {filteredEvent[0].eventCategory}
+            </Typography>
+          </CardContent>
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              {filteredEvent[0].eventDescription}
+            </Typography>
+          </CardContent>
+          <CardActions
+            sx={{ width: "100%", ml: "25%" }}
+            onClick={() =>
+              filteredEvent[0] && deleteEvents(filteredEvent[0].id)
+            }
+          >
+            <Button variant="contained" color="error">
+              Delete Event
+            </Button>
+          </CardActions>
+        </Collapse>
+      )}
+      <Popup
+        open={open}
+        building={building}
+        handleClose={handleClose}
+        deleteData={deleteData}
+        handleMarkerClick={handleMarkerClick}
+      ></Popup>
+    </Card>
+  );
+  if (building.buildingNumber) {
   }
 }
