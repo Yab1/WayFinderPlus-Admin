@@ -20,7 +20,7 @@ export default function BucketContextProvider({ children }) {
 
   useEffect(() => {
     if (downloadURL && resetURL) {
-      setDownloadURL(null); // Reset downloadURL to null
+      setDownloadURL(null);
       setResetURL(false);
     }
   }, [downloadURL, resetURL]);
