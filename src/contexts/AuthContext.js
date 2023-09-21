@@ -48,7 +48,6 @@ export default function AuthContextProvider({ children }) {
       })
       .catch((err) => {
         setErrorMsg(err.code.split("/")[1]);
-        alert(errorMsg);
       });
   }
   function logout() {
