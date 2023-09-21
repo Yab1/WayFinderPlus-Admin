@@ -20,9 +20,11 @@ export default function createMarker(
       const buildingNumberElement = document.createElement("div");
       buildingNumberElement.className = "buildingNumberElement";
       buildingNumberElement.id = markerData.id;
-      buildingNumberElement.innerHTML = markerData.buildingNumber;
 
-      markerElement.appendChild(buildingNumberElement);
+      if (markerData.buildingNumber) {
+        buildingNumberElement.innerHTML = markerData.buildingNumber;
+        markerElement.appendChild(buildingNumberElement);
+      }
 
       const marker = new mapboxgl.Marker(markerElement)
         .setLngLat([
