@@ -41,6 +41,8 @@ function EditorWindow({ poi, handlePoi, marker }) {
   const [image, setImage] = useState(null);
   const [imageType, setImageType] = useState("");
   const [submitDisabled, setSubmitDisabled] = useState(false);
+  const [duplicated, setDuplicated] = useState(false);
+  const [disable, setDisable] = useState(false);
 
   const { logged } = useContext(AuthContext);
 
@@ -68,8 +70,14 @@ function EditorWindow({ poi, handlePoi, marker }) {
         category: false,
         type: false,
       });
-      poi.buildingNumber === "" &&
+      if (
+        poi.buildingCategory === "Area" ||
+        poi.buildingCategory === "Parking Area"
+      ) {
+        setError((prevError) => ({ ...prevError, number: false }));
+      } else if (poi.buildingNumber === "") {
         setError((prevError) => ({ ...prevError, number: !prevError.number }));
+      }
       poi.geoHash === "" &&
         openSnack({
           severity: "error",
@@ -99,6 +107,34 @@ function EditorWindow({ poi, handlePoi, marker }) {
     setImage(null);
     setImageType("");
   };
+
+  const checkForDuplication = (buildingNumber, buildingsData) => {
+    const duplicatedArr = buildingsData.filter(
+      (building) => building.buildingNumber === buildingNumber
+    );
+    if (duplicatedArr.length === 0) {
+      setDuplicated(false);
+    } else {
+      setDuplicated(true);
+    }
+  };
+
+  const setDisableState = (category) => {
+    if (category === "Area" || category === "Parking Area") {
+      setDisable(true);
+      handlePoi((prevPoi) => ({
+        ...prevPoi,
+        buildingNumber: "Building number not required",
+      }));
+    } else {
+      setDisable(false);
+      handlePoi((prevPoi) => ({
+        ...prevPoi,
+        buildingNumber: "",
+      }));
+    }
+  };
+
   const reset = () => {
     trigger();
     setImage(null);
@@ -125,60 +161,68 @@ function EditorWindow({ poi, handlePoi, marker }) {
   return (
     <MapContext.Consumer>
       {(context) => {
-        const { addData } = context;
+        const { addData, buildingsData } = context;
         middleMan = () => {
           if (logged) {
-            if (
-              poi.geoHash &&
-              poi.buildingNumber &&
-              poi.buildingCategory &&
-              image &&
-              imageType
-            ) {
-              uploadImage(image[0], poi.buildingNumber, imageType);
-              setSubmitDisabled(true);
+            if (duplicated) {
               openSnack({
-                severity: "warning",
+                severity: "error",
                 message:
-                  "Upload in progress. Check your internet connection if it takes longer than usual!",
+                  "Duplicate building number. Please choose a unique number.",
               });
-              if (poi.url) {
-                addData(poi, logged);
-                if (marker) {
-                  marker.remove();
+            } else {
+              if (
+                poi.geoHash &&
+                poi.buildingNumber &&
+                poi.buildingCategory &&
+                image &&
+                imageType
+              ) {
+                uploadImage(image[0], poi.buildingNumber, imageType);
+                setSubmitDisabled(true);
+                openSnack({
+                  severity: "warning",
+                  message:
+                    "Upload in progress. Check your internet connection if it takes longer than usual!",
+                });
+                if (poi.url) {
+                  addData(poi, logged);
+                  if (marker) {
+                    marker.remove();
+                  }
+                  reset();
+                  openSnack({
+                    severity: "success",
+                    message: "Data saved successfully!",
+                  });
+                  setSubmitDisabled(false);
+                } else {
+                  if (uploadError) {
+                    openSnack({
+                      severity: "error",
+                      message: uploadError,
+                    });
+                  }
                 }
-                reset();
+              } else if (
+                poi.geoHash &&
+                poi.buildingNumber &&
+                poi.buildingCategory &&
+                !image &&
+                !imageType
+              ) {
+                setSubmitDisabled(true);
+                addData(poi);
                 openSnack({
                   severity: "success",
                   message: "Data saved successfully!",
                 });
-                setSubmitDisabled(false);
-              } else {
-                if (uploadError) {
-                  openSnack({
-                    severity: "error",
-                    message: uploadError,
-                  });
+                reset();
+                if (marker) {
+                  marker.remove();
                 }
+                setSubmitDisabled(false);
               }
-            } else if (
-              poi.geoHash &&
-              poi.buildingNumber &&
-              poi.buildingCategory &&
-              !image &&
-              !imageType
-            ) {
-              setSubmitDisabled(true);
-              addData(poi);
-              openSnack({
-                severity: "success",
-                message: "Data saved successfully!",
-              });
-              reset();
-              if (marker) {
-                marker.remove();
-              }
-              setSubmitDisabled(false);
             }
           } else {
             openSnack({
@@ -211,21 +255,22 @@ function EditorWindow({ poi, handlePoi, marker }) {
             >
               <Stack spacing={3}>
                 <TextField
-                  disabled={submitDisabled}
+                  disabled={submitDisabled || disable}
                   error={error.number}
                   required
                   fullWidth
                   variant="standard"
                   id="buildingNumber"
-                  type="number"
+                  type={disable ? "text" : "number"}
                   label="Building Number"
                   value={poi.buildingNumber}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     handlePoi((prevPoi) => ({
                       ...prevPoi,
                       buildingNumber: e.target.value,
-                    }))
-                  }
+                    }));
+                    checkForDuplication(e.target.value, buildingsData);
+                  }}
                 />
                 <TextField
                   disabled={submitDisabled}
@@ -238,12 +283,13 @@ function EditorWindow({ poi, handlePoi, marker }) {
                   label="Building Category"
                   defaultValue=""
                   value={poi.buildingCategory}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    setDisableState(e.target.value);
                     handlePoi((prevPoi) => ({
                       ...prevPoi,
                       buildingCategory: e.target.value,
-                    }))
-                  }
+                    }));
+                  }}
                 >
                   {categories.map((option) => (
                     <MenuItem
