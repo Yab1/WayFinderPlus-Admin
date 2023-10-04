@@ -8,6 +8,7 @@ const initialState = {
     severity: "error",
     message: "",
   },
+  isDrawerOpen: true,
 };
 
 const uiSlice = createSlice({
@@ -24,9 +25,16 @@ const uiSlice = createSlice({
       state.loginSnackbar.open = action.payload.open;
       state.loginSnackbar.message = action.payload.message;
     },
+    toggleDrawer: (state) => {
+      state.isDrawerOpen = !state.isDrawerOpen;
+    },
   },
 });
 
-export const { togglePasswordVisibility, setAnchorEl, toggleLoginSnackbar } =
-  uiSlice.actions;
+export const {
+  togglePasswordVisibility,
+  setAnchorEl,
+  toggleLoginSnackbar,
+  toggleDrawer,
+} = uiSlice.actions;
 export default uiSlice.reducer;
