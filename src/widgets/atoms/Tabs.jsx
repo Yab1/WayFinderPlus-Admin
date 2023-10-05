@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import primaryRoutes from "@/routes";
 
 // MUI Components
@@ -12,7 +12,6 @@ import { grey } from "@mui/material/colors";
 
 function Tabs() {
   const { isDrawerOpen } = useSelector((state) => state.ui);
-  const dispatch = useDispatch();
 
   const renderTabs = primaryRoutes.map(({ icon, name, path }) => (
     <NavLink
@@ -21,13 +20,7 @@ function Tabs() {
       style={{ textDecoration: "none" }}
     >
       {({ isActive }) => (
-        <ListItem
-          disablePadding
-          sx={{
-            display: "block",
-            bgcolor: isActive ? grey[300] : grey[50],
-          }}
-        >
+        <ListItem disablePadding sx={{ display: "block" }}>
           <ListItemButton
             sx={{
               minHeight: 48,
@@ -40,7 +33,7 @@ function Tabs() {
                 minWidth: 0,
                 mr: isDrawerOpen ? 3 : "auto",
                 justifyContent: "center",
-                color: isActive ? grey[900] : grey[500],
+                color: isActive ? grey[50] : grey[800],
               }}
             >
               {icon}
@@ -49,7 +42,7 @@ function Tabs() {
               primary={name}
               sx={{
                 opacity: isDrawerOpen ? 1 : 0,
-                color: isActive ? grey[900] : grey[500],
+                color: isActive ? grey[50] : grey[800],
               }}
             />
           </ListItemButton>
