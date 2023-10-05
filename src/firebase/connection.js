@@ -1,13 +1,29 @@
 import { initializeApp } from "firebase/app";
+import { getFirestore, collection } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: "customized-navigation-system.firebaseapp.com",
-  projectId: "customized-navigation-system",
-  storageBucket: "customized-navigation-system.appspot.com",
-  messagingSenderId: "3696229373",
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.REACT_APP_FIREBASE_API_ID,
 };
 
-// init firebase app
 export const app = initializeApp(firebaseConfig);
+
+const database = getFirestore(app);
+
+export const colRef = collection(
+  database,
+  "Locations",
+  "Adama Science And Technology",
+  "BuildingsData"
+);
+
+export const eventColRef = collection(
+  database,
+  "Locations",
+  "Adama Science And Technology",
+  "EventsData"
+);
