@@ -38,3 +38,24 @@ code {
   top: 13px;
   text-align: center;
 }
+
+#mapBox {
+  position: absolute;
+  inset: 0;
+}
+.mapboxgl-ctrl-logo {
+  display: none !important;
+}
+.marker {
+  position: relative;
+  background-color: #1a237e;
+  width: 10px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  border: 0.1em solid white;
+}
+.buildingNumberElement {
+  position: absolute;
+  top: -1.5em;
+  /* left: 1em; */
+}
