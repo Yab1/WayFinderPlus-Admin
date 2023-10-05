@@ -83,7 +83,7 @@ function LoginForm() {
         open={!isLogged}
         className="visuals"
         style={isLogged ? { display: "none" } : { display: "block" }}
-        sx={{ position: "absolute", zIndex: "modal" }}
+        sx={{ position: "absolute", zIndex: "tooltip" }}
       >
         <DialogTitle sx={{ mx: "auto", pb: 0 }}>Admin Login</DialogTitle>
         <DialogContent
