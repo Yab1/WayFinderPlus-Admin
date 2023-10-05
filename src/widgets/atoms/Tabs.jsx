@@ -8,7 +8,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
-import { blue } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 
 function Tabs() {
   const { isDrawerOpen } = useSelector((state) => state.ui);
@@ -25,7 +25,7 @@ function Tabs() {
           disablePadding
           sx={{
             display: "block",
-            bgcolor: isActive ? blue[900] : "white",
+            bgcolor: isActive ? grey[300] : grey[50],
           }}
         >
           <ListItemButton
@@ -40,7 +40,7 @@ function Tabs() {
                 minWidth: 0,
                 mr: isDrawerOpen ? 3 : "auto",
                 justifyContent: "center",
-                color: isActive ? blue[50] : "black",
+                color: isActive ? grey[900] : grey[500],
               }}
             >
               {icon}
@@ -49,7 +49,7 @@ function Tabs() {
               primary={name}
               sx={{
                 opacity: isDrawerOpen ? 1 : 0,
-                color: isActive ? blue[50] : "black",
+                color: isActive ? grey[900] : grey[500],
               }}
             />
           </ListItemButton>

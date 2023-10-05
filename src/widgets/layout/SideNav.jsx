@@ -69,15 +69,9 @@ function SideNav() {
       <DrawerHeader
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "flex-end",
         }}
       >
-        <Typography
-          variant="h6"
-          sx={{ my: "auto", display: isDrawerOpen ? "block" : "none" }}
-        >
-          Wayfinder Plus
-        </Typography>
         <IconButton onClick={() => dispatch(toggleDrawer())}>
           {isDrawerOpen ? <ChevronLeftIcon /> : <MenuIcon />}
         </IconButton>
