@@ -10,7 +10,6 @@ const initialState = {
     message: "",
   },
   isDrawerOpen: false,
-  isInfoCardOpen: true,
 };
 
 const uiSlice = createSlice({
@@ -33,9 +32,6 @@ const uiSlice = createSlice({
     toggleDrawer: (state) => {
       state.isDrawerOpen = !state.isDrawerOpen;
     },
-    toggleInfoCard: (state) => {
-      state.isInfoCardOpen = !state.isInfoCardOpen;
-    },
   },
 });
 
@@ -45,6 +41,5 @@ export const {
   setStyleAnchorEl,
   toggleLoginSnackbar,
   toggleDrawer,
-  toggleInfoCard,
 } = uiSlice.actions;
 export default uiSlice.reducer;
