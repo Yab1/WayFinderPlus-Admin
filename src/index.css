@@ -47,7 +47,6 @@ code {
   display: none !important;
 }
 .marker {
-  position: relative;
   background-color: #1a237e;
   width: 10px;
   aspect-ratio: 1/1;
@@ -57,5 +56,5 @@ code {
 .buildingNumberElement {
   position: absolute;
   top: -1.5em;
-  /* left: 1em; */
+  left: 0.1px;
 }

@@ -1,9 +1,9 @@
 import mapboxgl from "mapbox-gl";
 
 export default function createMarker(map, data, dispatcher) {
-  if (map) {
+  if (data.length > 0) {
     const newMarkers = data.map((building) => {
-      const markerElement = document.createElement("span");
+      const markerElement = document.createElement("div");
       markerElement.id = building.id;
       markerElement.className = "marker";
 
@@ -43,6 +43,5 @@ export default function createMarker(map, data, dispatcher) {
         });
       }
     });
-    return newMarkers;
   }
 }

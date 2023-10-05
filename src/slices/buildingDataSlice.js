@@ -34,22 +34,22 @@ export const fetchData = createAsyncThunk(
   }
 );
 
-export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
-  try {
-    const queuedRef = query(eventColRef);
-    const snapshot = await getDocs(queuedRef);
+// export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
+//   try {
+//     const queuedRef = query(eventColRef);
+//     const snapshot = await getDocs(queuedRef);
 
-    const events = snapshot.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
+//     const events = snapshot.docs.map((doc) => ({
+//       ...doc.data(),
+//       id: doc.id,
+//     }));
 
-    return events;
-  } catch (err) {
-    alert(err.message);
-    throw err.message;
-  }
-});
+//     return events;
+//   } catch (err) {
+//     alert(err.message);
+//     throw err.message;
+//   }
+// });
 
 // export const fetchData = createAsyncThunk("data/fetchData", async () => {
 //   try {
