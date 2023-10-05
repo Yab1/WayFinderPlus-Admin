@@ -2,13 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   showPassword: false,
-  anchorEl: null,
+  accountAnchorEl: null,
+  styleAnchorEl: null,
   loginSnackbar: {
     open: false,
     severity: "error",
     message: "",
   },
-  isDrawerOpen: true,
+  isDrawerOpen: false,
+  isInfoCardOpen: true,
 };
 
 const uiSlice = createSlice({
@@ -18,8 +20,11 @@ const uiSlice = createSlice({
     togglePasswordVisibility: (state) => {
       state.showPassword = !state.showPassword;
     },
-    setAnchorEl: (state, action) => {
-      state.anchorEl = action.payload;
+    setAccountAnchorEl: (state, action) => {
+      state.accountAnchorEl = action.payload;
+    },
+    setStyleAnchorEl: (state, action) => {
+      state.styleAnchorEl = action.payload;
     },
     toggleLoginSnackbar: (state, action) => {
       state.loginSnackbar.open = action.payload.open;
@@ -28,13 +33,18 @@ const uiSlice = createSlice({
     toggleDrawer: (state) => {
       state.isDrawerOpen = !state.isDrawerOpen;
     },
+    toggleInfoCard: (state) => {
+      state.isInfoCardOpen = !state.isInfoCardOpen;
+    },
   },
 });
 
 export const {
   togglePasswordVisibility,
-  setAnchorEl,
+  setAccountAnchorEl,
+  setStyleAnchorEl,
   toggleLoginSnackbar,
   toggleDrawer,
+  toggleInfoCard,
 } = uiSlice.actions;
 export default uiSlice.reducer;
