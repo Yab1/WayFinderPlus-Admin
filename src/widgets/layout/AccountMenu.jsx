@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setAnchorEl } from "@/slices";
+import { setAccountAnchorEl } from "@/slices";
 import { clearUserCredentials } from "@/layouts";
 
 // MUI Components
@@ -14,14 +14,14 @@ import Logout from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 function AccountMenu() {
-  const { anchorEl } = useSelector((state) => state.ui);
+  const { accountAnchorEl } = useSelector((state) => state.ui);
   const dispatch = useDispatch();
 
   return (
     <Fragment>
       <IconButton
-        sx={{ position: "absolute", right: 20, top: 5, zIndex: 50 }}
-        onClick={(event) => dispatch(setAnchorEl(event.currentTarget))}
+        sx={{ position: "absolute", right: 15, top: 5, zIndex: "snackbar" }}
+        onClick={(event) => dispatch(setAccountAnchorEl(event.currentTarget))}
         size="small"
       >
         <Avatar sx={{ width: 30, height: 30 }}>
@@ -29,10 +29,10 @@ function AccountMenu() {
         </Avatar>
       </IconButton>
       <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={() => dispatch(setAnchorEl(null))}
-        onClick={() => dispatch(setAnchorEl(null))}
+        anchorEl={accountAnchorEl}
+        open={Boolean(accountAnchorEl)}
+        onClose={() => dispatch(setAccountAnchorEl(null))}
+        onClick={() => dispatch(setAccountAnchorEl(null))}
         PaperProps={{
           sx: {
             overflow: "visible",
@@ -55,6 +55,7 @@ function AccountMenu() {
         }}
       >
         <MenuItem
+          dense
           sx={{ p: 0 }}
           onClick={() => dispatch(clearUserCredentials())}
         >
