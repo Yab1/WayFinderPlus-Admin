@@ -1,40 +1,30 @@
 import mapboxgl from "mapbox-gl";
 
-export default function createMarker(
-  map,
-  decodedBuildingData,
-  handleMarkerClick
-) {
+export default function createMarker(map, data, dispatcher) {
   if (map) {
-    const newMarkers = decodedBuildingData.map((markerData) => {
-      const markerElement = document.createElement("div");
-      markerElement.id = markerData.id;
-      markerElement.className = "poi-marker";
-      markerElement.style.backgroundImage = `url(${markerData.icon})`;
-      markerElement.style.backgroundSize = "contain";
-      markerElement.style.backgroundRepeat = "no-repeat";
-      markerElement.style.backgroundPosition = "center";
-      markerElement.style.width = "16px";
-      markerElement.style.height = "16px";
+    const newMarkers = data.map((building) => {
+      const markerElement = document.createElement("span");
+      markerElement.id = building.id;
+      markerElement.className = "marker";
 
-      const buildingNumberElement = document.createElement("div");
+      const buildingNumberElement = document.createElement("span");
       buildingNumberElement.className = "buildingNumberElement";
-      buildingNumberElement.id = markerData.id;
+      buildingNumberElement.id = building.id;
 
-      if (markerData.buildingNumber) {
-        buildingNumberElement.innerHTML = markerData.buildingNumber;
+      if (building.buildingNumber) {
+        buildingNumberElement.innerHTML = building.buildingNumber;
         markerElement.appendChild(buildingNumberElement);
       }
 
       const marker = new mapboxgl.Marker(markerElement)
         .setLngLat([
-          markerData.coordinates.longitude,
-          markerData.coordinates.latitude,
+          building.coordinates.longitude,
+          building.coordinates.latitude,
         ])
         .addTo(map);
 
       marker.getElement().addEventListener("click", () => {
-        handleMarkerClick(markerData.id);
+        dispatcher(building);
       });
 
       return marker;
