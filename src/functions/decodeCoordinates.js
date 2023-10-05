@@ -3,7 +3,7 @@ import categories from "../utils/categories";
 
 export default function decodeCoordinates(buildingsData) {
   let decodedData = [];
-  if (buildingsData !== []) {
+  if (buildingsData.length > 0) {
     buildingsData.map((building) => {
       const { latitude, longitude } = decodeGeoHash(building.geoHash);
       const filteredCat = categories.filter(
