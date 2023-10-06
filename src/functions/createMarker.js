@@ -29,6 +29,7 @@ export default function createMarker(map, data, dispatcher) {
 
       return marker;
     });
+
     map.on("zoom", () => {
       const currentZoom = map.getZoom();
       const zoomThreshold = 15.483005466588104;
@@ -43,5 +44,7 @@ export default function createMarker(map, data, dispatcher) {
         });
       }
     });
+
+    return newMarkers;
   }
 }
