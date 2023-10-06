@@ -79,13 +79,25 @@ const initialState = {
   data: [],
   status: "idle",
   error: "",
-  markers: [],
+  dataToDelete: {},
 };
 
 const buildingDataSlice = createSlice({
   name: "buildingData",
   initialState,
-  reducers: {},
+  reducers: {
+    markDataForDeletion: (state, action) => {
+      console.log(action.payload);
+      if (action.payload) {
+        const filteredData = state.data.filter(
+          (building) => building.id === action.payload
+        );
+        state.dataToDelete = filteredData[0];
+      } else {
+        state.dataToDelete = {};
+      }
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchData.pending, (state) => {
@@ -102,7 +114,5 @@ const buildingDataSlice = createSlice({
   },
 });
 
-// export const {
-//   /* Reducer actions */
-// } = buildingDataSlice.actions;
+export const { markDataForDeletion } = buildingDataSlice.actions;
 export default buildingDataSlice.reducer;

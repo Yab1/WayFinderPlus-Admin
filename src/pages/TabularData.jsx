@@ -1,5 +1,14 @@
+import { Fragment } from "react";
+import { Table } from "@/widgets/table";
+import { Dialog } from "@/widgets/cards";
+
 function TabularData() {
-  return <div>TabularData</div>;
+  return (
+    <Fragment>
+      <Dialog />
+      <Table />
+    </Fragment>
+  );
 }
 
 TabularData.displayName = "/src/pages/TabularData.jsx";

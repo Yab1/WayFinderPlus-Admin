@@ -10,6 +10,7 @@ const initialState = {
     message: "",
   },
   isDrawerOpen: false,
+  isConfirmationDialogOpen: false,
 };
 
 const uiSlice = createSlice({
@@ -32,6 +33,9 @@ const uiSlice = createSlice({
     toggleDrawer: (state) => {
       state.isDrawerOpen = !state.isDrawerOpen;
     },
+    toggleConfirmationDialog: (state) => {
+      state.isConfirmationDialogOpen = !state.isConfirmationDialogOpen;
+    },
   },
 });
 
@@ -41,5 +45,6 @@ export const {
   setStyleAnchorEl,
   toggleLoginSnackbar,
   toggleDrawer,
+  toggleConfirmationDialog,
 } = uiSlice.actions;
 export default uiSlice.reducer;
