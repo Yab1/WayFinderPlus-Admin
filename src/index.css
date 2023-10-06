@@ -38,10 +38,10 @@ code {
   top: 13px;
   text-align: center;
 }
-
-#mapBox {
+.map-container {
   position: absolute;
   inset: 0;
+  z-index: 10;
 }
 .mapboxgl-ctrl-logo {
   display: none !important;
