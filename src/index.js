@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "@/redux";
+import "mapbox-gl/dist/mapbox-gl.css";
 import "@/index.css";
 import App from "@/App";
 
