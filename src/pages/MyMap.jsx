@@ -5,6 +5,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { setClickedMarker } from "@/slices";
 import { createMarker } from "@/functions";
 import { InfoCard } from "@/widgets/cards";
+import { StyleController } from "@/widgets/layout";
 
 function MyMap() {
   const { metaData, mapStyle, layer } = useSelector((state) => state.mapBox);
@@ -41,6 +42,7 @@ function MyMap() {
   return (
     <Fragment>
       <InfoCard />
+      <StyleController />
       <div id="mapBox"></div>
     </Fragment>
   );
