@@ -1,9 +1,33 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
+import mapboxgl from "mapbox-gl";
+import { useSelector, useDispatch } from "react-redux";
 import { Map } from "@/widgets/layout";
+import { MapDataEntry, CategoriesCard } from "@/widgets/cards";
+import { createMarker } from "@/functions";
+import { getCoordinates } from "@/slices";
 
 function MapDataEditor() {
+  const { map } = useSelector((state) => state.mapBox);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (map) {
+      map.on("click", (e) => {
+        const { lat, lng } = e.lngLat.wrap();
+        createMarker(map, lng, lat);
+        dispatch(getCoordinates({ longitude: lng, latitude: lat }));
+      });
+    }
+  }, [map]);
+
+  useEffect(() => {
+    dispatch(getCoordinates(null));
+  }, []);
+
   return (
     <Fragment>
+      <MapDataEntry />
+      <CategoriesCard />
       <Map />
     </Fragment>
   );

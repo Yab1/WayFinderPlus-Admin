@@ -2,7 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
 import { authReducer } from "@/layouts";
-import { buildingsDataReducer, mapBoxReducer, uiReducer } from "@/slices";
+import {
+  buildingsDataReducer,
+  mapBoxReducer,
+  uiReducer,
+  bucketReducer,
+} from "@/slices";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +15,7 @@ const store = configureStore({
     ui: uiReducer,
     mapBox: mapBoxReducer,
     buildingData: buildingsDataReducer,
+    bucket: bucketReducer,
   },
   middleware: [thunk, logger],
 });

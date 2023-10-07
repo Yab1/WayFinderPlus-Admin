@@ -80,6 +80,8 @@ const initialState = {
   status: "idle",
   error: "",
   dataToDelete: {},
+  selectedBuildingType: null,
+  coordinates: null,
 };
 
 const buildingDataSlice = createSlice({
@@ -87,7 +89,6 @@ const buildingDataSlice = createSlice({
   initialState,
   reducers: {
     markDataForDeletion: (state, action) => {
-      console.log(action.payload);
       if (action.payload) {
         const filteredData = state.data.filter(
           (building) => building.id === action.payload
@@ -96,6 +97,12 @@ const buildingDataSlice = createSlice({
       } else {
         state.dataToDelete = {};
       }
+    },
+    getCoordinates: (state, action) => {
+      state.coordinates = action.payload;
+    },
+    selectBuildingType: (state, action) => {
+      state.selectedBuildingType = action.payload;
     },
   },
   extraReducers(builder) {
@@ -114,5 +121,6 @@ const buildingDataSlice = createSlice({
   },
 });
 
-export const { markDataForDeletion } = buildingDataSlice.actions;
+export const { markDataForDeletion, getCoordinates, selectBuildingType } =
+  buildingDataSlice.actions;
 export default buildingDataSlice.reducer;

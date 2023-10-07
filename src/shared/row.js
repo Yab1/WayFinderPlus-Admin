@@ -1,26 +1,8 @@
 import { useState } from "react";
 import Popup from "./dialog";
 
-// MUI Components, Colors and Icons
-import { styled } from "@mui/material/styles";
-import IconButton from "@mui/material/IconButton";
-import TableCell from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { grey } from "@mui/material/colors";
-
 export default function Row({ building, id, deleteData }) {
   const [open, setOpen] = useState(false);
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(even)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
 
   const style = {
     color: grey[500],
@@ -37,12 +19,12 @@ export default function Row({ building, id, deleteData }) {
       >
         {building.buildingName}
       </TableCell>
-      <TableCell
+      {/* <TableCell
         align="left"
         sx={building.buildingDescription === "No Data" ? style : null}
       >
         {building.buildingDescription}
-      </TableCell>
+      </TableCell> */}
       <TableCell align="left">{building.created_at}</TableCell>
       <TableCell>
         <IconButton

@@ -1,50 +1,21 @@
 import mapboxgl from "mapbox-gl";
 
-export default function createMarker(map, data, dispatcher) {
-  if (data.length > 0) {
-    const newMarkers = data.map((building) => {
-      const markerElement = document.createElement("div");
-      markerElement.id = building.id;
-      markerElement.className = "marker";
+function createMarker(map, lng, lat) {
+  const existingMarkerContainer = document.querySelector(".marker-container");
 
-      const buildingNumberElement = document.createElement("span");
-      buildingNumberElement.className = "buildingNumberElement";
-      buildingNumberElement.id = building.id;
-
-      if (building.buildingNumber) {
-        buildingNumberElement.innerHTML = building.buildingNumber;
-        markerElement.appendChild(buildingNumberElement);
-      }
-
-      const marker = new mapboxgl.Marker(markerElement)
-        .setLngLat([
-          building.coordinates.longitude,
-          building.coordinates.latitude,
-        ])
-        .addTo(map);
-
-      marker.getElement().addEventListener("click", () => {
-        dispatcher(building);
-      });
-
-      return marker;
-    });
-
-    map.on("zoom", () => {
-      const currentZoom = map.getZoom();
-      const zoomThreshold = 15.483005466588104;
-
-      if (currentZoom <= zoomThreshold) {
-        newMarkers.forEach((marker) => {
-          marker.getElement().style.display = "none";
-        });
-      } else {
-        newMarkers.forEach((marker) => {
-          marker.getElement().style.display = "block";
-        });
-      }
-    });
-
-    return newMarkers;
+  if (existingMarkerContainer) {
+    existingMarkerContainer.remove();
   }
+
+  const markerContainer = document.createElement("div");
+  const dot = document.createElement("div");
+
+  markerContainer.className = "marker-container";
+  dot.className = "dot";
+
+  markerContainer.appendChild(dot);
+
+  new mapboxgl.Marker(markerContainer).setLngLat([lng, lat]).addTo(map);
 }
+
+export default createMarker;

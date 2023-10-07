@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { MapContext } from "../contexts/MapContext";
 import mapboxgl from "mapbox-gl";
 import decodeCoordinates from "../functions/decodeCoordinates";
-import createMarker from "../functions/createMarker";
+import createMarker from "../functions/loadMarkers";
 import StyledCard from "../shared/card";
 import ShowCard from "../shared/showCard";
 

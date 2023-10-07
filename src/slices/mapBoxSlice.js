@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  clickedMarker: [],
+  map: null,
   mapStyle: "outdoors-v12",
   markers: [],
+  clickedMarker: [],
   showMarkers: true,
 };
 
@@ -11,6 +12,9 @@ const mapBoxSlice = createSlice({
   name: "mapMetaData",
   initialState,
   reducers: {
+    loadMap: (state, action) => {
+      state.map = action.payload;
+    },
     setClickedMarker: (state, action) => {
       state.clickedMarker = action.payload;
     },
@@ -27,6 +31,7 @@ const mapBoxSlice = createSlice({
 });
 
 export const {
+  loadMap,
   setClickedMarker,
   switchMapStyle,
   initializeMarkers,

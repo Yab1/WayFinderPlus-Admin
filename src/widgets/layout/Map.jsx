@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setClickedMarker, initializeMarkers } from "@/slices";
-import { createMarker } from "@/functions";
+import { setClickedMarker, initializeMarkers, loadMap } from "@/slices";
+import { loadMarkers } from "@/functions";
 import Controller from "./Controller";
 import mapboxgl from "mapbox-gl";
 
@@ -77,6 +77,10 @@ function Map() {
   }, []);
 
   useEffect(() => {
+    if (map.current) dispatch(loadMap(map.current));
+  }, [map.current]);
+
+  useEffect(() => {
     map.current.setStyle("mapbox://styles/mapbox/" + mapStyle);
   }, [mapStyle]);
 
@@ -84,10 +88,10 @@ function Map() {
     if (showMarkers) {
       if (markers) {
         markers.forEach((marker) => marker.remove());
-        const newMarkers = createMarker(map.current, data, dispatcher);
+        const newMarkers = loadMarkers(map.current, data, dispatcher);
         dispatch(initializeMarkers(newMarkers));
       } else {
-        const newMarkers = createMarker(map.current, data, dispatcher);
+        const newMarkers = loadMarkers(map.current, data, dispatcher);
         dispatch(initializeMarkers(newMarkers));
       }
     } else {

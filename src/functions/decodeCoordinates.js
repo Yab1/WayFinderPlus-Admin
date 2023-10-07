@@ -1,17 +1,13 @@
-import decodeGeoHash from "../services/firebase/decodeGeoHash";
-import categories from "../utils/categories";
+import decodeGeoHash from "@/services/firebase/decodeGeoHash";
+import formatDate from "./formatDate";
 
 export default function decodeCoordinates(buildingsData) {
   let decodedData = [];
   if (buildingsData.length > 0) {
     buildingsData.map((building) => {
       const { latitude, longitude } = decodeGeoHash(building.geoHash);
-      const filteredCat = categories.filter(
-        (category) => category.value === building.buildingCategory
-      );
       decodedData.push({
         id: building.id,
-        icon: filteredCat[0].icon,
         buildingName: building.buildingName,
         buildingNumber: building.buildingNumber,
         buildingCategory: building.buildingCategory,
@@ -20,6 +16,7 @@ export default function decodeCoordinates(buildingsData) {
           latitude: latitude,
           longitude: longitude,
         },
+        created_at: formatDate(building.created_at),
       });
     });
   }

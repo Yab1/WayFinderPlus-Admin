@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import { app } from "../services/firebase/connection";
+import { app } from "@/firebase";
 import {
   getFirestore,
   collection,

@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { app } from "../services/firebase/connection";
+import { app } from "@/firebase";
 import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
