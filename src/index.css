@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   border: "1em solid black";
+  overflow: hidden;
 }
 
 code {
@@ -43,6 +44,10 @@ code {
   inset: 0;
   z-index: 10;
 }
+.map-container canvas {
+  cursor: crosshair;
+}
+
 .mapboxgl-ctrl-logo {
   display: none !important;
 }
@@ -57,4 +62,35 @@ code {
   position: absolute;
   top: -1.5em;
   left: 0.1px;
+}
+.data-entry-form {
+  width: 100%;
+  margin-top: 3em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.marker-container {
+  aspect-ratio: 1/1;
+  padding: 10px;
+  border-radius: 50%;
+  border: 0.1em dashed #d50000;
+}
+
+.dot {
+  background-color: #d50000;
+  width: 5px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
 }
