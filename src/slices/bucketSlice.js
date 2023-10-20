@@ -111,5 +111,5 @@ const bucketSlice = createSlice({
   },
 });
 
-export const { setImage, uploadedProcess } = bucketSlice.actions;
+export const { setImage, updateUploadProgress } = bucketSlice.actions;
 export default bucketSlice.reducer;
