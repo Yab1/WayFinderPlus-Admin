@@ -15,7 +15,6 @@ import { setStyleAnchorEl } from "@/slices";
 const styles = {
   dark: "dark-v11",
   light: "light-v11",
-  night: "navigation-night-v1",
   outdoor: "outdoors-v12",
   satellite: "satellite-streets-v12",
 };
