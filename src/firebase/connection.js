@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection } from "firebase/firestore";
+import { getStorage, ref } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -11,6 +12,7 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
 
 const database = getFirestore(app);
 
@@ -27,3 +29,4 @@ export const eventColRef = collection(
   "Adama Science And Technology",
   "EventsData"
 );
+export const storageRef = ref(storage);

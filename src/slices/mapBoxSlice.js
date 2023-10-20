@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   map: null,
   mapStyle: "outdoors-v12",
-  markers: [],
-  clickedMarker: [],
+  markers: null,
+  clickedMarker: null,
   showMarkers: true,
 };
 

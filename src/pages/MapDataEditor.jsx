@@ -1,10 +1,9 @@
 import { Fragment, useEffect } from "react";
-import mapboxgl from "mapbox-gl";
 import { useSelector, useDispatch } from "react-redux";
 import { Map } from "@/widgets/layout";
 import { MapDataEntry, CategoriesCard } from "@/widgets/cards";
-import { createMarker } from "@/functions";
 import { getCoordinates } from "@/slices";
+import { addPin } from "@/functions/marker-operations";
 
 function MapDataEditor() {
   const { map } = useSelector((state) => state.mapBox);
@@ -14,15 +13,11 @@ function MapDataEditor() {
     if (map) {
       map.on("click", (e) => {
         const { lat, lng } = e.lngLat.wrap();
-        createMarker(map, lng, lat);
+        addPin(map, lng, lat);
         dispatch(getCoordinates({ longitude: lng, latitude: lat }));
       });
     }
   }, [map]);
-
-  useEffect(() => {
-    dispatch(getCoordinates(null));
-  }, []);
 
   return (
     <Fragment>

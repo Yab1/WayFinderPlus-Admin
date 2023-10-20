@@ -1,9 +1,10 @@
 import { Fragment, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setClickedMarker, initializeMarkers, loadMap } from "@/slices";
-import { loadMarkers } from "@/functions";
-import Controller from "./Controller";
 import mapboxgl from "mapbox-gl";
+import { setClickedMarker, initializeMarkers, loadMap } from "@/slices";
+import { initMarkerFunctions } from "@/functions";
+import { listenForMarkerClicks } from "@/functions/marker-operations";
+import Controller from "./Controller";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAP_BOX_ACCESS_TOKEN;
 
@@ -54,7 +55,11 @@ function Map() {
   const mapContainer = useRef(null);
   const map = useRef(null);
 
-  function dispatcher(markerData) {
+  function dispatchInitializeMarkers(data) {
+    dispatch(initializeMarkers(data));
+  }
+
+  function dispatcherSetClickedMarker(markerData) {
     dispatch(setClickedMarker(markerData));
   }
 
@@ -85,20 +90,24 @@ function Map() {
   }, [mapStyle]);
 
   useEffect(() => {
-    if (showMarkers) {
-      if (markers) {
-        markers.forEach((marker) => marker.remove());
-        const newMarkers = loadMarkers(map.current, data, dispatcher);
-        dispatch(initializeMarkers(newMarkers));
-      } else {
-        const newMarkers = loadMarkers(map.current, data, dispatcher);
-        dispatch(initializeMarkers(newMarkers));
-      }
-    } else {
-      if (markers) {
-        markers.forEach((marker) => marker.remove());
-      }
-    }
+    if (map.current && markers)
+      listenForMarkerClicks(
+        map.current,
+        markers,
+        data,
+        dispatcherSetClickedMarker
+      );
+  }, [map.current, markers]);
+
+  useEffect(() => {
+    if (data && map.current)
+      initMarkerFunctions(
+        data,
+        map.current,
+        markers,
+        showMarkers,
+        dispatchInitializeMarkers
+      );
   }, [map.current, data, showMarkers]);
 
   return (

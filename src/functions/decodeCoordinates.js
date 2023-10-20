@@ -8,6 +8,7 @@ export default function decodeCoordinates(buildingsData) {
       const { latitude, longitude } = decodeGeoHash(building.geoHash);
       decodedData.push({
         id: building.id,
+        url: building.url,
         buildingName: building.buildingName,
         buildingNumber: building.buildingNumber,
         buildingCategory: building.buildingCategory,

@@ -17,7 +17,7 @@ const store = configureStore({
     buildingData: buildingsDataReducer,
     bucket: bucketReducer,
   },
-  middleware: [thunk, logger],
+  middleware: [thunk],
 });
 
 export default store;

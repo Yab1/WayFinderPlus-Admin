@@ -1,8 +1,12 @@
 import mapboxgl from "mapbox-gl";
 
-function loadMarkers(map, data, dispatcher) {
-  if (data.length > 0) {
-    const newMarkers = data.map((building) => {
+function loadMarkers(data, markers, showMarkers, map, dispatcher) {
+  if (data) {
+    if (markers) {
+      markers.forEach((marker) => marker.remove());
+    }
+
+    markers = data.map((building) => {
       const markerElement = document.createElement("div");
       markerElement.id = building.id;
       markerElement.className = "marker";
@@ -14,6 +18,12 @@ function loadMarkers(map, data, dispatcher) {
       if (building.buildingNumber) {
         buildingNumberElement.innerHTML = building.buildingNumber;
         markerElement.appendChild(buildingNumberElement);
+      }
+
+      if (showMarkers) {
+        markerElement.style.display = "block !important";
+      } else {
+        markerElement.style.display = "none !important";
       }
 
       const marker = new mapboxgl.Marker(markerElement)
@@ -32,21 +42,29 @@ function loadMarkers(map, data, dispatcher) {
 
     map.on("zoom", () => {
       const currentZoom = map.getZoom();
-      const zoomThreshold = 15.483005466588104;
+      const zoomThreshold = 15.2;
 
-      if (currentZoom <= zoomThreshold) {
-        newMarkers.forEach((marker) => {
+      if (currentZoom < zoomThreshold) {
+        markers.forEach((marker) => {
           marker.getElement().style.display = "none";
         });
       } else {
-        newMarkers.forEach((marker) => {
+        markers.forEach((marker) => {
           marker.getElement().style.display = "block";
         });
       }
     });
 
-    return newMarkers;
+    return markers;
   }
 }
 
 export default loadMarkers;
+// map.flyTo({
+//   center: [
+//     building.coordinates.longitude,
+//     building.coordinates.latitude,
+//   ],
+//   zoom: 20,
+//   essential: true,
+// });

@@ -76,10 +76,10 @@ export const fetchData = createAsyncThunk(
 // });
 
 const initialState = {
-  data: [],
+  data: null,
   status: "idle",
-  error: "",
-  dataToDelete: {},
+  error: null,
+  dataToDelete: null,
   selectedBuildingType: null,
   coordinates: null,
 };

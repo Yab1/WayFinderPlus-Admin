@@ -1,4 +1,4 @@
-import { Fragment, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { useFormik } from "formik";
 import { object, string, number, mixed } from "yup";
 import Box from "@mui/material/Box";
@@ -16,40 +16,56 @@ import {
   ImageMarked,
 } from "@/widgets/atoms";
 import { useSelector, useDispatch } from "react-redux";
-import { fileReader, selectBuildingType } from "@/slices";
+import { fileReader, selectBuildingType, uploadImage } from "@/slices";
 
 function MapDataEntry() {
   const inputRef = useRef(null);
-  const { status, coordinates, selectedBuildingType } = useSelector(
+  const { coordinates, selectedBuildingType } = useSelector(
     (state) => state.buildingData
   );
-  const { selectedFile } = useSelector((state) => state.bucket);
+  const { selectedFile, image, url, uploadStatus, uploadedProcess } =
+    useSelector((state) => state.bucket);
   const dispatch = useDispatch();
 
   const validationSchema = object({
-    buildingNumber: number()
-      .required("Building Number is required")
-      .typeError("Building Number must be a valid number"),
+    // buildingNumber: number()
+    //   .required("Building Number is required")
+    //   .typeError("Building Number must be a valid number"),
   });
 
   const formik = useFormik({
     initialValues: {
-      // image: "",
-      // geoHash: "",
+      imageUrl: url,
+      coordinates: coordinates,
       buildingNumber: "",
       buildingName: "",
-      // buildingCategory: "",
+      buildingCategory: selectedBuildingType,
       buildingDescription: "",
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      dispatch(uploadImage());
+      if (uploadStatus === "succeeded" && values.imageUrl) {
+        console.log(values);
+      }
     },
   });
 
+  useEffect(() => {
+    console.log(uploadedProcess + "% done");
+  }, [uploadedProcess]);
+
+  useEffect(() => {
+    console.log(url);
+  }, [url]);
+
+  useEffect(() => {
+    console.log(uploadStatus);
+  }, [uploadStatus]);
+
   return (
     <Fragment>
-      {coordinates && selectedBuildingType ? (
+      {true ? (
         <Box
           component="div"
           sx={{
@@ -112,7 +128,7 @@ function MapDataEntry() {
             </ImageButton>
             <StyledTextField
               fullWidth
-              required
+              // required
               id="buildingNumber"
               type="number"
               variant="standard"
@@ -154,7 +170,8 @@ function MapDataEntry() {
               variant="outlined"
               loadingPosition="end"
               type="submit"
-              loading={status === "loading"}
+              // loading={uploadStatus === "uploading" ? true : false}
+              onClick={() => uploadImage()}
               endIcon={<SendIcon />}
               sx={{ py: 1, px: 3 }}
             >
@@ -162,7 +179,11 @@ function MapDataEntry() {
             </LoadingButton>
           </form>
         </Box>
-      ) : null}
+      ) : (
+        <button className="btn" onClick={() => dispatch(uploadImage())}>
+          Click Me
+        </button>
+      )}
     </Fragment>
   );
 }
