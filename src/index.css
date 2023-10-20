@@ -52,13 +52,14 @@ code {
   display: none !important;
 }
 .marker {
-  background-color: #1a237e;
-  width: 10px;
+  background-color: white;
+  width: 8px;
   aspect-ratio: 1/1;
   border-radius: 50%;
-  border: 0.1em solid white;
+  border: 0.1em solid black;
 }
-.buildingNumberElement {
+.marker-label {
+  color: #424242;
   position: absolute;
   top: -1.5em;
   left: 0.1px;
@@ -93,4 +94,11 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 5px;
   aspect-ratio: 1/1;
   border-radius: 50%;
+}
+.active {
+  display: none !important;
+}
+.btn {
+  position: absolute;
+  z-index: 2000;
 }
