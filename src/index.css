@@ -95,9 +95,9 @@ input[type="number"]::-webkit-outer-spin-button {
   aspect-ratio: 1/1;
   border-radius: 50%;
 }
-.active {
+/* .active {
   display: none !important;
-}
+} */
 .btn {
   position: absolute;
   z-index: 2000;
