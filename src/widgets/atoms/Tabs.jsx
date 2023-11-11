@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import primaryRoutes from "@/routes";
+import routes from "@/routes";
 
 // MUI Components
 import ListItem from "@mui/material/ListItem";
@@ -13,7 +13,7 @@ import { grey } from "@mui/material/colors";
 function Tabs() {
   const { isDrawerOpen } = useSelector((state) => state.ui);
 
-  const renderTabs = primaryRoutes.map(({ icon, name, path }) => (
+  const renderTabs = routes.map(({ icon, name, path }) => (
     <NavLink
       key={name}
       to={`/dashboard${path}`}
@@ -50,7 +50,6 @@ function Tabs() {
       )}
     </NavLink>
   ));
-
   return <List>{renderTabs}</List>;
 }
 
