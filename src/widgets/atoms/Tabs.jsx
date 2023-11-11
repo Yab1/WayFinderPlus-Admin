@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import routes from "@/routes";
 
 // MUI Components
@@ -9,15 +9,18 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
 import { grey } from "@mui/material/colors";
+import { getCoordinates } from "@/slices";
 
 function Tabs() {
   const { isDrawerOpen } = useSelector((state) => state.ui);
+  const dispatch = useDispatch();
 
   const renderTabs = routes.map(({ icon, name, path }) => (
     <NavLink
       key={name}
       to={`/dashboard${path}`}
       style={{ textDecoration: "none" }}
+      onClick={() => dispatch(getCoordinates(null))}
     >
       {({ isActive }) => (
         <ListItem disablePadding sx={{ display: "block" }}>
