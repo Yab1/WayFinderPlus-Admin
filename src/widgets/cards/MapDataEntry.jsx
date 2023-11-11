@@ -65,7 +65,7 @@ function MapDataEntry() {
 
   return (
     <Fragment>
-      {true ? (
+      {selectedBuildingType ? (
         <Box
           component="div"
           sx={{
@@ -179,11 +179,7 @@ function MapDataEntry() {
             </LoadingButton>
           </form>
         </Box>
-      ) : (
-        <button className="btn" onClick={() => dispatch(uploadImage())}>
-          Click Me
-        </button>
-      )}
+      ) : null}
     </Fragment>
   );
 }
