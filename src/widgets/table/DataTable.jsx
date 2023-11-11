@@ -17,14 +17,6 @@ function DataTable() {
         </TableHead>
         <TableBody>
           <Row />
-          {/* {buildingsData &&
-            buildingsData.map((building) => (
-              <Row
-                key={building.id}
-                building={building}
-                deleteData={deleteData}
-              />
-            ))} */}
         </TableBody>
       </Table>
     </TableContainer>
