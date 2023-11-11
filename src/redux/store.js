@@ -9,6 +9,11 @@ import {
   bucketReducer,
 } from "@/slices";
 
+const actionLogger = () => (next) => (action) => {
+  console.log("Action:", action.type);
+  return next(action);
+};
+
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -17,7 +22,7 @@ const store = configureStore({
     buildingData: buildingsDataReducer,
     bucket: bucketReducer,
   },
-  middleware: [thunk],
+  middleware: [thunk, actionLogger],
 });
 
 export default store;
