@@ -8,7 +8,7 @@ import { object, string } from "yup";
 
 //Components and Slices
 import { getUserCredentials } from "./authSlice";
-import { togglePasswordVisibility, toggleLoginSnackbar } from "@/slices";
+import { togglePasswordVisibility, toggleLoginSnackbar } from "@/redux/slices";
 import { Alert } from "@/atoms";
 
 //MUI Components
@@ -27,7 +27,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LoginIcon from "@mui/icons-material/Login";
 
-function LoginForm() {
+function SignInForm() {
   const { status, error, isLogged } = useSelector((state) => state.auth);
   const { showPassword, loginSnackbar } = useSelector((state) => state.ui);
   const dispatch = useDispatch();
@@ -154,6 +154,6 @@ function LoginForm() {
   );
 }
 
-LoginForm.displayName = "/src/features/login/LoginForm.jsx";
+SignInForm.displayName = "/src/features/auth/SignInForm.tsx";
 
-export default LoginForm;
+export default SignInForm;

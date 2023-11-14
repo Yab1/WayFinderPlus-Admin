@@ -2,7 +2,7 @@ import { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Map } from "@/widgets/layout";
 import { MapDataEntry, CategoriesCard } from "@/widgets/cards";
-import { getCoordinates } from "@/slices";
+import { getCoordinates } from "@/redux/slices";
 import { addPin } from "@/functions/marker-operations";
 
 function MapDataEditor() {
@@ -21,9 +21,9 @@ function MapDataEditor() {
 
   return (
     <Fragment>
+      <Map />
       <MapDataEntry />
       <CategoriesCard />
-      <Map />
     </Fragment>
   );
 }

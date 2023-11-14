@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { categories } from "@/constants";
 import { grey } from "@mui/material/colors";
-import { selectBuildingType } from "@/slices";
+import { selectBuildingType } from "@/redux/slices";
 
 function CategoriesCard() {
   const { coordinates, selectedBuildingType } = useSelector(

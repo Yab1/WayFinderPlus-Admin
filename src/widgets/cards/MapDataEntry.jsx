@@ -16,7 +16,7 @@ import {
   ImageMarked,
 } from "@/widgets/atoms";
 import { useSelector, useDispatch } from "react-redux";
-import { fileReader, selectBuildingType, uploadImage } from "@/slices";
+import { fileReader, selectBuildingType, uploadImage } from "@/redux/slices";
 
 function MapDataEntry() {
   const inputRef = useRef(null);

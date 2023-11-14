@@ -8,7 +8,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { grey } from "@mui/material/colors";
 
-import { toggleDrawer } from "@/slices";
+import { toggleDrawer } from "@/redux/slices";
 import { useSelector, useDispatch } from "react-redux";
 import { Tabs } from "@/widgets/atoms";
 

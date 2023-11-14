@@ -8,7 +8,7 @@ import { ImageButton, ImageSrc, Image, ImageBackdrop } from "@/widgets/atoms";
 import { useSelector, useDispatch } from "react-redux";
 import { grey } from "@mui/material/colors";
 import Thumbnail from "@/assets/Thumbnail.jpeg";
-import { setClickedMarker } from "@/slices";
+import { setClickedMarker } from "@/redux/slices";
 
 function InfoCard() {
   const { map, clickedMarker } = useSelector((state) => state.mapBox);

@@ -9,7 +9,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
 import { grey } from "@mui/material/colors";
-import { getCoordinates } from "@/slices";
+import { getCoordinates } from "@/redux/slices";
 
 function Tabs() {
   const { isDrawerOpen } = useSelector((state) => state.ui);

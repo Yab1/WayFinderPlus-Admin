@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { markDataForDeletion } from "@/slices";
+import { markDataForDeletion } from "@/redux/slices";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import TableCell from "@mui/material/TableCell";

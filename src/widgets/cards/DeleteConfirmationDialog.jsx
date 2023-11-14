@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { markDataForDeletion } from "@/slices";
+import { markDataForDeletion } from "@/redux/slices";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";

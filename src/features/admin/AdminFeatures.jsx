@@ -2,9 +2,10 @@ import { Fragment, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { SideNav, AccountMenu } from "@/widgets/layout";
 import routes from "@/routes";
-import { fetchData } from "@/slices";
+import { fetchData } from "@/redux/slices";
 import { useDispatch } from "react-redux";
-function Dashboard() {
+
+function AdminFeatures() {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,6 +26,6 @@ function Dashboard() {
   );
 }
 
-Dashboard.displayName = "/src/layouts/Dashboard.jsx";
+AdminFeatures.displayName = "/src/features/admin/AdminFeatures.jsx";
 
-export default Dashboard;
+export default AdminFeatures;

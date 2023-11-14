@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import mapboxgl from "mapbox-gl";
-import { setClickedMarker, initializeMarkers, loadMap } from "@/slices";
+import { setClickedMarker, initializeMarkers, loadMap } from "@/redux/slices";
 import { initMarkerFunctions } from "@/functions";
 import { listenForMarkerClicks } from "@/functions/marker-operations";
 import Controller from "./Controller";
@@ -112,8 +112,8 @@ function Map() {
 
   return (
     <Fragment>
-      <Controller />
       <div ref={mapContainer} className="map-container"></div>;
+      <Controller />
     </Fragment>
   );
 }

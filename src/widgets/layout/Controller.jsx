@@ -9,8 +9,8 @@ import ListItemText from "@mui/material/ListItemText";
 import LayersIcon from "@mui/icons-material/Layers";
 import RoomIcon from "@mui/icons-material/Room";
 import { grey } from "@mui/material/colors";
-import { switchMapStyle, toggleMarkers } from "@/slices";
-import { setStyleAnchorEl } from "@/slices";
+import { switchMapStyle, toggleMarkers } from "@/redux/slices";
+import { setStyleAnchorEl } from "@/redux/slices";
 
 const styles = {
   dark: "dark-v11",

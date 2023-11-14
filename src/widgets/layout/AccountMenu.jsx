@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setAccountAnchorEl } from "@/slices";
-import { clearUserCredentials } from "@/layouts";
+import { setAccountAnchorEl } from "@/redux/slices";
+// import { clearUserCredentials } from "@/layouts";
 
 // MUI Components
 import Avatar from "@mui/material/Avatar";
@@ -57,7 +57,7 @@ function AccountMenu() {
         <MenuItem
           dense
           sx={{ p: 0 }}
-          onClick={() => dispatch(clearUserCredentials())}
+          // onClick={() => dispatch(clearUserCredentials())}
         >
           Logout
           <Logout fontSize="small" sx={{ ml: 2 }} />

@@ -1,18 +1,11 @@
 //React,Redux,Router
-import { useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Routes, Route } from "react-router-dom";
 
 // Components
-import { Auth, Dashboard, checkLocalStorage } from "@/layouts";
+import { Admin } from "@/layouts";
+import { VisitorFeatures } from "./features";
 
 function App() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(checkLocalStorage());
-  }, []);
-
   return (
     <div
       className="App"
@@ -23,10 +16,12 @@ function App() {
         flexDirection: { xs: "column", sm: "column", md: "row", lg: "row" },
       }}
     >
-      <Auth />
       <Routes>
-        <Route path="/dashboard/*" element={<Dashboard />} />
-        <Route path="*" element={<Navigate to="/dashboard/my-map" replace />} />
+        {true ? (
+          <Route path="/wayfinder/*" element={<Admin />} />
+        ) : (
+          <Route exact path={"visiter*"} element={<VisitorFeatures />} />
+        )}
       </Routes>
     </div>
   );
