@@ -6,3 +6,5 @@ export { default as buildingsDataReducer } from "./buildingDataSlice";
 export * from "./buildingDataSlice";
 export { default as bucketReducer } from "./bucketSlice";
 export * from "./bucketSlice";
+export { default as firebaseReducer } from "./firebaseSlice";
+export * from "./firebaseSlice";

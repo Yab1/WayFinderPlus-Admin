@@ -7,6 +7,7 @@ import {
   mapBoxReducer,
   uiReducer,
   bucketReducer,
+  firebaseReducer,
 } from "@/redux/slices";
 
 const actionLogger = () => (next) => (action) => {
@@ -18,6 +19,7 @@ const store = configureStore({
   reducer: {
     // auth: authReducer,
     ui: uiReducer,
+    firebase: firebaseReducer,
     mapBox: mapBoxReducer,
     buildingData: buildingsDataReducer,
     bucket: bucketReducer,
