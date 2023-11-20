@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { MapStyles } from "@/constants";
 
 const initialState = {
   map: null,
-  mapStyle: "outdoors-v12",
+  mapStyle: MapStyles.LIGHT,
   markers: null,
   clickedMarker: null,
   showMarkers: true,
