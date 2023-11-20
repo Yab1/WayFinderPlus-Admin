@@ -5,19 +5,19 @@ import { AdminFeatures, Auth } from "@/features";
 function Admin() {
   return (
     <Fragment>
-      <Routes>
+      {/* <Routes>
         <Route path="/wayfinder/*" element={<AdminFeatures />} />
         <Route path="/wayfinder/auth/*" element={<Auth />} />
         <Route
           path="*"
           element={
             <Navigate
-              to={true ? "/wayfinder/my-map" : "/wayfinder/auth/sign-in"}
+              to={true ? "/wayfinder" : "/wayfinder/auth/sign-in"}
               replace
             />
           }
         />
-      </Routes>
+      </Routes> */}
     </Fragment>
   );
 }

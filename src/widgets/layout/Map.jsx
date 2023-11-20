@@ -4,7 +4,7 @@ import mapboxgl from "mapbox-gl";
 import { setClickedMarker, initializeMarkers, loadMap } from "@/redux/slices";
 import { initMarkerFunctions } from "@/functions";
 import { listenForMarkerClicks } from "@/functions/marker-operations";
-import Controller from "./Controller";
+import Controller from "../../features/studio/widgets/Controller";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAP_BOX_ACCESS_TOKEN;
 
