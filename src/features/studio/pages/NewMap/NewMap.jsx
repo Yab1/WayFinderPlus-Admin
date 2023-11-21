@@ -1,89 +1,65 @@
-import { Fragment, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import mapboxgl from "mapbox-gl";
-
-mapboxgl.accessToken = process.env.REACT_APP_MAP_BOX_ACCESS_TOKEN;
-
-const metaData = {
-  center: [39.7823, 9.145],
-  zoom: 5.3,
-  pitch: 4,
-  attributionControl: false,
-};
-
-const layer = {
-  id: "add-3d-buildings",
-  source: "composite",
-  "source-layer": "building",
-  filter: ["==", "extrude", "true"],
-  type: "fill-extrusion",
-  minzoom: 15,
-  paint: {
-    "fill-extrusion-color": "#aaa",
-    "fill-extrusion-height": [
-      "interpolate",
-      ["linear"],
-      ["zoom"],
-      15,
-      0,
-      15.05,
-      ["get", "height"],
-    ],
-    "fill-extrusion-base": [
-      "interpolate",
-      ["linear"],
-      ["zoom"],
-      15,
-      0,
-      15.05,
-      ["get", "min_height"],
-    ],
-    "fill-extrusion-opacity": 0.6,
-  },
-};
+import { useCallback, useEffect, useState } from "react";
+import {
+  Map,
+  GeolocateControl,
+  FullscreenControl,
+  NavigationControl,
+  ScaleControl,
+} from "react-map-gl";
+import { DrawControl } from "@/features/studio/controls";
 
 function NewMap() {
-  const { mapStyle } = useSelector((state) => state.mapBox);
+  const [features, setFeatures] = useState({});
 
-  const ethiopiaBounds = [
-    [32.95418, 3.42206], // Southwest coordinates of Ethiopia
-    [47.78942, 14.95943], // Northeast coordinates of Ethiopia
-  ];
-
-  const mapContainer = useRef(null);
-  const map = useRef(null);
-
-  useEffect(() => {
-    map.current = new mapboxgl.Map({
-      ...metaData,
-      container: mapContainer.current,
-    });
-
-    const nav = new mapboxgl.NavigationControl();
-    map.current.addControl(nav, "bottom-right");
-
-    map.current.on("style.load", () => {
-      const layers = map.current.getStyle().layers;
-      const labelLayerId = layers.find(
-        (layer) => layer.type === "symbol" && layer.layout["text-field"]
-      ).id;
-      map.current.addLayer(layer, labelLayerId);
-    });
-
-    map.current.fitBounds(ethiopiaBounds, {
-      padding: 20, // Adjust the padding as needed
-      duration: 0, // Instantly fit the bounds without animation
+  const onUpdate = useCallback((e) => {
+    setFeatures((currFeatures) => {
+      const newFeatures = { ...currFeatures };
+      for (const f of e.features) {
+        newFeatures[f.id] = f;
+      }
+      return newFeatures;
     });
   }, []);
 
   useEffect(() => {
-    map.current.setStyle("mapbox://styles/mapbox/" + mapStyle);
-  }, [mapStyle]);
+    console.log(features);
+  }, [features]);
+
+  const bounds = [
+    [32.9, 3.3],
+    [48.0, 15.0],
+  ];
 
   return (
-    <Fragment>
-      <div ref={mapContainer} className="map-container"></div>;
-    </Fragment>
+    <Map
+      mapLib={import("mapbox-gl")}
+      initialViewState={{
+        longitude: 39.7823,
+        latitude: 9.145,
+        zoom: 5.3,
+        pitch: 45,
+        maxBounds: bounds,
+      }}
+      style={{ position: "absolute", inset: 0, zIndex: 10 }}
+      mapStyle="mapbox://styles/mapbox/streets-v9"
+      mapboxAccessToken={process.env.REACT_APP_MAP_BOX_ACCESS_TOKEN}
+      attributionControl={false}
+    >
+      <DrawControl
+        displayControlsDefault={false}
+        controls={{
+          polygon: true,
+          trash: true,
+        }}
+        onCreate={onUpdate}
+        onUpdate={onUpdate}
+        onDelete={() => console.log("DELETE")}
+      />
+      <NavigationControl position="bottom-right" />
+      <GeolocateControl position="bottom-right" />
+      <FullscreenControl position="bottom-right" />
+      <ScaleControl />
+    </Map>
   );
 }
 
