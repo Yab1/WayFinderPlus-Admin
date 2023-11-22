@@ -1,13 +1,12 @@
-import { NewMap } from "@/features/studio/pages";
+import { MapDefinition } from "@/features/studio/map-toolbox";
+import { StudioDashboard } from "@/features/studio";
 
-//MUI Icons
 import MapIcon from "@mui/icons-material/Map";
 import DatasetLinkedOutlinedIcon from "@mui/icons-material/DatasetLinkedOutlined";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import EventIcon from "@mui/icons-material/Event";
 import { ExplorePage, WelcomePage, Help } from "@/features/user/pages";
 import { Auth } from "@/features/auth";
-import { StudioDashboard } from "@/features/studio";
 
 // export const routes = [
 //   {
@@ -57,7 +56,7 @@ export const studioRoutes = [
     element: <StudioDashboard />,
   },
   {
-    path: "/new-map",
-    element: <NewMap />,
+    path: "/define-map",
+    element: <MapDefinition />,
   },
 ];
