@@ -4,7 +4,7 @@ import { Logo, AccountMenu } from "./widgets";
 function AppBar() {
   return (
     <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-      <Logo />
+      <Logo width={200} />
       <AccountMenu />
     </Box>
   );
