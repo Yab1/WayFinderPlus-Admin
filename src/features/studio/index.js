@@ -1,1 +1,1 @@
-export { default as StudioDashboard } from "./studioDashboard";
+export { default as MapboxStudio } from "./mapbox/MapboxStudio";
