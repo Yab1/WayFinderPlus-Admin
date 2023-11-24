@@ -1,41 +1,41 @@
+import { MapStyles } from "@/features/studio/mapbox/constants";
 import { createSlice } from "@reduxjs/toolkit";
-import { MapStyles } from "@/constants";
 
 const initialState = {
-  map: null,
+  defaultBounds: [
+    [31.9, 3.3],
+    [49.0, 14.0],
+  ],
   mapStyle: MapStyles.LIGHT,
-  markers: null,
-  clickedMarker: null,
-  showMarkers: true,
+  newBounds: null,
+  polygonCenter: null,
 };
 
 const mapBoxSlice = createSlice({
   name: "mapMetaData",
   initialState,
   reducers: {
-    loadMap: (state, action) => {
-      state.map = action.payload;
+    resetMapBox: () => initialState,
+    updateBounds: (state, action) => {
+      state.defaultBounds = action.payload;
     },
-    setClickedMarker: (state, action) => {
-      state.clickedMarker = action.payload;
+    setBounds: (state, action) => {
+      state.newBounds = action.payload;
     },
-    switchMapStyle: (state, action) => {
+    setPolygonCenter: (state, action) => {
+      state.polygonCenter = action.payload;
+    },
+    setStyle: (state, action) => {
       state.mapStyle = action.payload;
-    },
-    initializeMarkers: (state, action) => {
-      state.markers = action.payload;
-    },
-    toggleMarkers: (state) => {
-      state.showMarkers = !state.showMarkers;
     },
   },
 });
 
 export const {
-  loadMap,
-  setClickedMarker,
-  switchMapStyle,
-  initializeMarkers,
-  toggleMarkers,
+  resetMapBox,
+  updateBounds,
+  setStyle,
+  setBounds,
+  setPolygonCenter,
 } = mapBoxSlice.actions;
 export default mapBoxSlice.reducer;
