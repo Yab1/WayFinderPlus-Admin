@@ -31,8 +31,8 @@ const uiSlice = createSlice({
       state.loginSnackbar.open = action.payload.open;
       state.loginSnackbar.message = action.payload.message;
     },
-    toggleDrawer: (state) => {
-      state.isDrawerOpen = !state.isDrawerOpen;
+    toggleDrawer: (state, action) => {
+      state.isDrawerOpen = action.payload;
     },
     toggleConfirmationDialog: (state) => {
       state.isConfirmationDialogOpen = !state.isConfirmationDialogOpen;
