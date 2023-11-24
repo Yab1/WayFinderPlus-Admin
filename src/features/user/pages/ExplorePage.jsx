@@ -54,7 +54,7 @@ function ExplorePage() {
         <Button
           variant="contained"
           sx={{ width: "fit-content", bgcolor: blueGrey[800], mt: 3 }}
-          onClick={() => navigate("/wayfinder/studio")}
+          onClick={() => navigate("/wayfinder/studio/mapbox/inventory")}
         >
           Tour Map
         </Button>
