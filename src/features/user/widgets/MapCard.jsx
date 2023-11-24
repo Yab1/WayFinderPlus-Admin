@@ -1,11 +1,10 @@
 import { Card, CardMedia } from "@mui/material";
 import { CardActionArea } from "@mui/material";
-import { Images } from "@/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { selectMap } from "@/redux/slices";
 
 function MapCard() {
-  const { maps } = useSelector((state) => state.firebase);
+  const { maps } = useSelector((state) => state.firestore);
   const dispatch = useDispatch();
 
   const renderMaps = maps.map((map) => (
