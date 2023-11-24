@@ -1,13 +1,13 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Box from "@mui/material/Box";
-import { StudioLayout, UserLayout } from "@/layouts";
+import { Studio, UserLayout } from "@/layouts";
 
 function App() {
   return (
     <Box>
       <Routes>
         <Route path="wayfinder/*" element={<UserLayout />} />
-        <Route path="wayfinder/studio/*" element={<StudioLayout />} />
+        <Route path="wayfinder/studio/*" element={<Studio />} />
         <Route path="*" element={<Navigate to={"/wayfinder"} replace />} />
       </Routes>
     </Box>
@@ -15,14 +15,3 @@ function App() {
 }
 
 export default App;
-
-// <div
-//   className="App"
-//   style={{
-//     height: "100dvh",
-//     width: "100dvw",
-//     display: "flex",
-//     flexDirection: { xs: "column", sm: "column", md: "row", lg: "row" },
-//   }}
-// >
-// </div>
