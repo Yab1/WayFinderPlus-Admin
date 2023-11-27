@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Button, Grid, Typography } from "@mui/material";
-import { blue, blueGrey, grey } from "@mui/material/colors";
+import { Button, Grid, Typography } from "@mui/material";
+import { blueGrey } from "@mui/material/colors";
 import { toggleSignInDialog } from "@/redux/slices";
 import { AuthDialog } from "@/features/auth";
 import { MapCard } from "../widgets";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 function ExplorePage() {
   const { isAuthDialogOpen } = useSelector((state) => state.ui);
-  const { selectedMap } = useSelector((state) => state.firebase);
+  const { selectedMap } = useSelector((state) => state.firestore);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
