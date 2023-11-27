@@ -5,7 +5,6 @@ import {
   CardMedia,
   Typography,
   CardActionArea,
-  IconButton,
   Menu,
   MenuItem,
 } from "@mui/material";
@@ -15,7 +14,6 @@ import {
   Edit,
   Delete,
   FileCopy,
-  GifBoxTwoTone,
 } from "@mui/icons-material";
 import { blueGrey, grey } from "@mui/material/colors";
 import { useDispatch, useSelector } from "react-redux";
