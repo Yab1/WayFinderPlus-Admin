@@ -10,21 +10,21 @@ import { blue, blueGrey } from "@mui/material/colors";
 import { Tooltip } from "@mui/material";
 import { Images } from "@/constants";
 
+const HeroImage = styled("div")({
+  position: "absolute",
+  width: "100%",
+  height: "60%",
+  right: 20,
+  top: "50%",
+  transform: `translate(29%, -48%)`,
+  backgroundImage: `url(${Images.BuildingRoute})`,
+  backgroundPosition: "center",
+  backgroundSize: "contain",
+  backgroundRepeat: "no-repeat",
+});
+
 function WelcomePage() {
   const navigate = useNavigate();
-
-  const BuildingsImage = styled("div")({
-    position: "absolute",
-    width: "100%",
-    height: "60%",
-    right: 20,
-    top: "50%",
-    transform: `translate(29%, -48%)`,
-    backgroundImage: `url(${Images.BuildingRoute})`,
-    backgroundPosition: "center",
-    backgroundSize: "contain",
-    backgroundRepeat: "no-repeat",
-  });
 
   return (
     <Fragment>
@@ -71,7 +71,7 @@ function WelcomePage() {
         </Button>
       </Box>
 
-      <BuildingsImage />
+      <HeroImage />
 
       <Box
         component={"div"}
