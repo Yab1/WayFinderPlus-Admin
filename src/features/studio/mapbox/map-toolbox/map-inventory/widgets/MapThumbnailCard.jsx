@@ -15,6 +15,7 @@ import {
   Edit,
   Delete,
   FileCopy,
+  GifBoxTwoTone,
 } from "@mui/icons-material";
 import { blueGrey, grey } from "@mui/material/colors";
 import { useDispatch, useSelector } from "react-redux";
@@ -98,7 +99,7 @@ function MapThumbnailCard() {
             </Box>
           </Box>
 
-          <IconButton
+          <Box
             aria-haspopup="true"
             onClick={(event) =>
               dispatch(setAccountAnchorEl(event.currentTarget))
@@ -106,7 +107,7 @@ function MapThumbnailCard() {
             aria-expanded={Boolean(accountAnchorEl) ? "true" : undefined}
           >
             <MoreVert />
-          </IconButton>
+          </Box>
 
           <Menu
             anchorEl={accountAnchorEl}
