@@ -1,4 +1,4 @@
-import { MapInventory, MapDefinition } from "./index";
+import { MapInventory, MapDefinition, StructureEditor } from "./index";
 
 export const routes = [
   {
@@ -8,6 +8,10 @@ export const routes = [
   {
     path: "/define-map",
     element: <MapDefinition />,
+  },
+  {
+    path: "/structure-editor",
+    element: <StructureEditor />,
   },
 ];
 
