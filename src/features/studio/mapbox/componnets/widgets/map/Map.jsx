@@ -43,16 +43,19 @@ const layer = {
 
 function MapBox({ children }) {
   const { isDrawerOpen } = useSelector((state) => state.ui);
-  const { defaultBounds, mapStyle } = useSelector((state) => state.mapBox);
+  const { mapConfig, mapStyle } = useSelector((state) => state.mapBox);
 
   return (
     <Main open={isDrawerOpen}>
       <Map
         mapLib={import("mapbox-gl")}
         initialViewState={{
-          zoom: 5.3,
+          longitude: mapConfig.longitude,
+          latitude: mapConfig.latitude,
+          zoom: mapConfig.zoom,
+          maxBounds: mapConfig.bounds,
+          minZoom: mapConfig.minZoom,
           pitch: 50,
-          maxBounds: defaultBounds,
         }}
         style={{ width: "100%", height: "100vh" }}
         mapStyle={"mapbox://styles/mapbox/" + mapStyle}
@@ -60,6 +63,7 @@ function MapBox({ children }) {
         attributionControl={false}
       >
         {children}
+
         <Layer {...layer} />
         <StyleControl />
         <NavigationControl position="bottom-right" />
