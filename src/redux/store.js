@@ -14,7 +14,7 @@ const store = configureStore({
     firestore: firestoreReducer,
     mapBox: mapBoxReducer,
   },
-  middleware: [thunk],
+  middleware: [thunk, logger],
 });
 
 export default store;
