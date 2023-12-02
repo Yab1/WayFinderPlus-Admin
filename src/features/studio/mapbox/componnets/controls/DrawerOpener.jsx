@@ -6,13 +6,13 @@ import { StyledButton } from "@/features/studio/mapbox/atoms";
 
 function DrawerOpener() {
   const { isDrawerOpen } = useSelector((state) => state.ui);
-  const { newBounds } = useSelector((state) => state.mapBox);
+  const { compundConfig } = useSelector((state) => state.mapBox);
   const dispatch = useDispatch();
 
   return (
     <StyledButton
       open={isDrawerOpen}
-      sx={{ display: newBounds ? "" : "none", top: 10, left: 10 }}
+      sx={{ display: compundConfig.bounds ? "" : "none", top: 10, left: 10 }}
     >
       <IconButton
         color="inherit"
