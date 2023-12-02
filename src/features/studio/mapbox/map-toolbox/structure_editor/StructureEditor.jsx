@@ -1,5 +1,12 @@
+import { Map } from "@/features/studio/mapbox/componnets/widgets";
+import { MapConfig } from "@/features/studio/mapbox/componnets/controls";
+
 function StructureEditor() {
-  return <div>StructureEditor</div>;
+  return (
+    <Map>
+      <MapConfig />
+    </Map>
+  );
 }
 
 StructureEditor.displayName =
