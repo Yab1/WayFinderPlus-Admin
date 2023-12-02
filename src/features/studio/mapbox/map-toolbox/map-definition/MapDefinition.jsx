@@ -4,29 +4,44 @@ import { Box } from "@mui/material";
 import {
   DrawControl,
   DrawerOpener,
+  MapConfig,
 } from "@/features/studio/mapbox/componnets/controls";
 import { Map, Form } from "@/features/studio/mapbox/componnets/widgets";
 import { useDispatch, useSelector } from "react-redux";
-import { setBounds, toggleDrawer } from "@/redux/slices";
+import {
+  resetCompundConfig,
+  createCompound,
+  toggleDrawer,
+} from "@/redux/slices";
+import {
+  calculateCenter,
+  createBoundingBox,
+} from "@/features/studio/mapbox/functions";
 
 function MapDefinition() {
-  const { newBounds } = useSelector((state) => state.mapBox);
+  const { compundConfig } = useSelector((state) => state.mapBox);
   const dispatch = useDispatch();
 
   const onUpdate = (e) => {
     const coordinates = e.features[0].geometry.coordinates[0];
 
-    const newBounds = [coordinates[3], coordinates[1]].map((item) => [
-      Number(item[0].toFixed(1)),
-      Number(item[1].toFixed(1)),
-    ]);
+    const center = calculateCenter(coordinates);
+    const boundary = createBoundingBox(coordinates);
 
-    dispatch(setBounds([newBounds]));
+    dispatch(
+      createCompound({
+        longitude: center[0],
+        latitude: center[1],
+        bounds: boundary,
+      })
+    );
+
     dispatch(toggleDrawer(true));
   };
 
   const onDelete = () => {
-    dispatch(setBounds(null));
+    dispatch(resetCompundConfig());
+    dispatch(toggleDrawer(false));
   };
 
   const formFields = [
@@ -61,8 +76,8 @@ function MapDefinition() {
 
   useEffect(() => {
     const button = document.querySelector(".mapbox-gl-draw_polygon");
-    if (button) button.disabled = Boolean(newBounds);
-  }, [newBounds]);
+    if (button) button.disabled = Boolean(compundConfig.bounds);
+  }, [compundConfig]);
 
   return (
     <Fragment>
@@ -86,6 +101,7 @@ function MapDefinition() {
             onUpdate={onUpdate}
             onDelete={onDelete}
           />
+          <MapConfig />
         </Map>
       </Box>
     </Fragment>
