@@ -2,28 +2,46 @@ import { MapStyles } from "@/features/studio/mapbox/constants";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  defaultBounds: [
-    [31.9, 3.3],
-    [49.0, 14.0],
-  ],
-  mapStyle: MapStyles.LIGHT,
-  newBounds: null,
-  polygonCenter: null,
+  mapConfig: {
+    longitude: 40,
+    latitude: 9,
+    zoom: 6,
+    minZoom: 6,
+    bounds: [
+      [33, 3],
+      [48, 15],
+    ],
+  },
+
+  compundConfig: {
+    longitude: null,
+    latitude: null,
+    minZoom: null,
+    bounds: null,
+  },
+  mapStyle: MapStyles.OUTDOOR,
 };
 
 const mapBoxSlice = createSlice({
   name: "mapMetaData",
   initialState,
   reducers: {
-    resetMapBox: () => initialState,
-    updateBounds: (state, action) => {
-      state.defaultBounds = action.payload;
+    resetCompundConfig: (state) => {
+      state.compundConfig = {
+        longitude: null,
+        latitude: null,
+        minZoom: null,
+        bounds: null,
+      };
     },
-    setBounds: (state, action) => {
-      state.newBounds = action.payload;
+    changeMapConfig: (state, action) => {
+      state.mapConfig = action.payload;
     },
-    setPolygonCenter: (state, action) => {
-      state.polygonCenter = action.payload;
+    createCompound: (state, action) => {
+      state.compundConfig = { ...state.compundConfig, ...action.payload };
+    },
+    setCompundMiniZoom: (state, action) => {
+      state.compundConfig.minZoom = action.payload;
     },
     setStyle: (state, action) => {
       state.mapStyle = action.payload;
@@ -32,10 +50,10 @@ const mapBoxSlice = createSlice({
 });
 
 export const {
-  resetMapBox,
-  updateBounds,
+  resetCompundConfig,
+  changeMapConfig,
+  createCompound,
+  setCompundMiniZoom,
   setStyle,
-  setBounds,
-  setPolygonCenter,
 } = mapBoxSlice.actions;
 export default mapBoxSlice.reducer;
